@@ -4,6 +4,7 @@ typedef struct {
     // 一本书
     char name[81];
     char type[81];
+    int num;
 } Book;
 
 typedef struct {
@@ -17,5 +18,5 @@ typedef struct {
 typedef struct {
     // 学生
     char num[81];
-    Rec* head;s
+    Rec* head;
 } Stu;
