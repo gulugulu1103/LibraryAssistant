@@ -4,7 +4,7 @@ typedef struct {
     // 一本书
     char name[81];
     char type[81];
-    int num;
+    int num; // 书的数量
 } Book;
 
 typedef struct {
@@ -19,4 +19,6 @@ typedef struct {
     char num[81];
     Rec rec[21]; // 借还记录数组
     int recNum; // 借还记录数量
+    Book owe[20]; // 未还的书本
+    int oweNum; // 未还的书本数量
 } Stu;
