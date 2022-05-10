@@ -11,7 +11,7 @@ void delBook() {
         printf("\t程序退出中...\n");
         exit(0);
     }
-    if ((err = fopen(&fp, ".\\.library_temp.dat", "w+")) != 0) { // failed to open the file
+    if ((err = fopen(&temp, ".\\.library_temp.dat", "w+")) != 0) { // failed to open the file
         printf("\t错误：无法打开.library_temp.dat，错误代码%d\n", err);
         printf("\t程序退出中...\n");
         exit(0);
@@ -56,7 +56,7 @@ void editBook() {
         printf("\t程序退出中...\n");
         exit(0);
     }
-    if ((err = fopen(&fp, ".\\.library_temp.dat", "w+")) != 0) { // failed to open the file
+    if ((err = fopen(&temp, ".\\.library_temp.dat", "w+")) != 0) { // failed to open the file
         printf("\t错误：无法打开.library_temp.dat，错误代码%d\n", err);
         printf("\t程序退出中...\n");
         exit(0);
