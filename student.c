@@ -3,18 +3,98 @@
 #include <time.h>
 #include "class.h"
 #include "library.h"
+#include "menu.h"
 
-int countStu();
-// 该函数返回学生总数
+int countStu() {
+    // 该函数返回学生总数
+    errno_t err; // 用来记录文件打开错误信息
+    FILE* fp;
+    if ((err = fopen(&fp, ".\\student.dat", "r+")) != 0) { // failed to open the file
+        printf("\t错误：无法打开student.dat，错误代码%d\n", err);
+        printf("\t程序退出中...\n");
+        exit(0);
+    }
+    Stu stu;
+    int cnt = 0;
+    while (fread(&stu, sizeof(Stu), 1, fp) != EOF) {
+        cnt++;
+    }
+    if (!feof(fp)) { // 未读到文末
+        printf("\t软错误：文件无法读到文末\n");
+    }
+    fclose(fp);
+    return cnt;
+}
 
-void addStu(char* num);
-// 在"student.dat"中以追加模式新建以num为学号的学生
+void addStu(char* num) {
+    // 在"student.dat"中以追加模式新建以num为学号的学生
+    errno_t err; // 用来记录文件打开错误信息
+    FILE* fp;
+    if ((err = fopen(&fp, ".\\student.dat", "a+")) != 0) { // failed to open the file
+        printf("\t错误：无法打开student.dat，错误代码%d\n", err);
+        printf("\t程序退出中...\n");
+        exit(0);
+    }
+    Stu stu; // 初始化一个学生
+    stu.oweNum = stu.recNum = 0;
+    strcpy(stu.num, num);
+    fwrite(&stu, sizeof(Stu), 1, fp);
+    printf("\t成功添加学号为%s学生\n", stu.num);
+    fclose(fp);
+}
 
-int searchStu(char* num);
-// 在"student.dat"中查找以num为学号的学生，返回学生的顺位, 若没有找到则返回-1。
+int searchStu(char* num) {
+    // 在"student.dat"中查找以num为学号的学生，返回学生的顺位, 若没有找到则返回-1。
+    int index = -1;
+    errno_t err; // 用来记录文件打开错误信息
+    FILE* fp;
+    if ((err = fopen(&fp, ".\\student.dat", "r+")) != 0) { // failed to open the file
+        printf("\t错误：无法打开student.dat，错误代码%d\n", err);
+        printf("\t程序退出中...\n");
+        exit(0);
+    }
+    fseek(fp, 0, SEEK_SET);
+    Stu stu;
+    int i = 0;
+    while (fread(&stu, sizeof(Stu), 1, fp) != EOF) {
+        if (strcmp(num, stu.num) == 0) { // 输入学号和学生学号一致
+            index = i;
+            break;
+        }
+        ++i;
+    }
+    if (!feof(fp)) { // 未读到文末
+        printf("\t软错误：文件无法读到文末\n");
+    }
+    fclose(fp);
+    return index;
+}
 
-void showStu(char* num);
-// 调用searchStu()函数, 输出以num为学号的学生的近15条借阅记录
+void showStu(char* num) {
+    // 调用searchStu()函数, 输出以num为学号的学生的近15条借阅记录
+    errno_t err; // 用来记录文件打开错误信息
+    FILE* fp;
+    if ((err = fopen(&fp, ".\\student.dat", "r+")) != 0) { // failed to open the file
+        printf("\t错误：无法打开student.dat，错误代码%d\n", err);
+        printf("\t程序退出中...\n");
+        exit(0);
+    }
+    Stu stu;
+    int stuIndex = searchStu(num);
+    if (stuIndex == -1) {
+        printf("\t错误：找不到学号为%s的学生\n", num);
+        printf("\t程序退出中...\n");
+        fclose(fp);
+        return;
+    }
+    fseek(fp, stuIndex * sizeof(Stu), SEEK_SET);
+    fread(&stu, sizeof(Stu), 1, fp);
+    Rec rec; // 记录
+    for (int i = 0; i < stu.recNum; i++) {
+        rec = stu.rec[i];
+        printf("\t《%s》 | %s | %s\n", rec.book.name, rec.time, rec.borrow ? "借出":"归还");
+    }
+}
 
 void borrowBook(char* num) {
     // 该函数调用library库中的listBook()函数，询问用户借阅书目的序号,修改library.dat与student.dat
@@ -90,7 +170,7 @@ void borrowBook(char* num) {
     while (stu.recNum >= 16) {
         // 让stu.recNum始终保持15条
         for (int i = 0; i < stu.recNum; ++i) {
-            stu.rec[i] = stu.rec[i+1];
+            stu.rec[i] = stu.rec[i + 1];
         }
         --stu.recNum;
     }
@@ -124,7 +204,6 @@ void borrowBook(char* num) {
         printf("\t程序退出中...\n");
         exit(0);
     }
-
 }
 
 void returnBook(char* num);
