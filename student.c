@@ -92,7 +92,7 @@ void showStu(char* num) {
     Rec rec; // 记录
     for (int i = 0; i < stu.recNum; i++) {
         rec = stu.rec[i];
-        printf("\t %d | 《%s》 | %s | %s\n", i, rec.book.name, rec.time, rec.borro ?  "   借出":"归还");
+        printf("\t %d | 《%s》 | %s | %s\n", i, rec.book.name, rec.time, rec.borrow ?  "   借出":"归还");
     }
 }
 
