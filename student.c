@@ -92,7 +92,7 @@ void showStu(char* num) {
     Rec rec; // 记录
     for (int i = 0; i < stu.recNum; i++) {
         rec = stu.rec[i];
-        printf("\t《%s》 | %s | %s\n", rec.book.name, rec.time, rec.borrow ? "借出":"归还");
+        printf("\t %d | 《%s》 | %s | %s\n", i, rec.book.name, rec.time, rec.borrow ?  " 借出":"归还");
     }
 }
 
@@ -206,5 +206,119 @@ void borrowBook(char* num) {
     }
 }
 
-void returnBook(char* num);
-// 该函数会输出以num为学号未归还的书籍，让学生选择选项归还
+void returnBook(char* num) {
+    // 该函数会输出以num为学号未归还的书籍，让学生选择选项归还
+    errno_t err; // 用来记录文件打开错误信息
+    FILE* stufp;
+    Stu stu;
+    int stuIndex = searchStu(num);
+    if (stuIndex == -1) {
+        printf("\t错误：未找到该学生\n");
+        printf("\t程序返回中...\n");
+        return;
+    }
+    if ((err = fopen(&stufp, ".\\student.dat", "r+")) != 0) { // failed to open the file
+        printf("\t错误：无法打开student.dat，错误代码%d\n", err);
+        printf("\t程序退出中...\n");
+        exit(0);
+    }
+    fseek(stufp, stuIndex * sizeof(Stu), SEEK_SET);
+    fread(&stu, sizeof(Stu), 1, stufp);
+    fclose(stufp);
+    if (stu.oweNum == 0) {
+        // 该学生不可以借书
+        printf("\t错误：你的借阅列表为空，如需继续请先借书\n");
+        printf("\t程序返回中...\n");
+        return;
+    }
+    // 该学生可以还书，进入修改学生未还书目阶段
+    printf("\t如下书目尚未归还\n");
+    for (int i = 0; i < stu.oweNum; i++) {
+        printf("\t %d | 《%s》\n", i, stu.owe[i].name);
+    }
+    printf("\t请输入归还的书目序号\n");
+    int destination;
+    scanf("%d", &destination);
+    // 检验destination是否合法
+    if (destination < 0 || destination >= stu.oweNum) {
+        printf("\t错误：输入的归还书目序号不合法\n");
+        printf("\t程序退出中...\n");
+        return;
+    }
+    for (int i = destination; i < stu.oweNum - 1; i++) {
+        stu.owe[i] = stu.owe[i + 1];
+    }
+    stu.oweNum--;
+    // 修改library.dat, 将此书籍数+1
+    FILE* libfp, * tempfp;
+    if ((err = fopen(&libfp, ".\\library.dat", "r+")) != 0) { // failed to open the file
+        printf("\t错误：无法打开library.dat，错误代码%d\n", err);
+        printf("\t程序退出中...\n");
+        exit(0);
+    }
+    if ((err = fopen(&tempfp, ".\\.library_temp.dat", "w+")) != 0) { // failed to open the file
+        printf("\t错误：无法打开library.dat，错误代码%d\n", err);
+        printf("\t程序退出中...\n");
+        exit(0);
+    }
+    fseek(libfp, 0, SEEK_SET), fseek(tempfp, 0, SEEK_SET);
+    int n = countBook();
+    Book book, bookFound; //book用于遍历library.dat，bookFound用于记录到借阅记录中
+    for (int i = 0; i < n; ++i) {
+        fread(&book, sizeof(Book), 1, libfp);
+        if (i == destination) {
+            ++book.num;
+            bookFound = book;
+        }
+        fwrite(&book, sizeof(Book), 1, tempfp);
+    }
+    remove(".\\library.dat");
+    if (rename(".\\.library_tmp.dat", ".\\library.dat") != 0) {
+        printf("\t错误：无法修改.library_tmp.dat为library.dat\n");
+        printf("\t程序退出中...\n");
+        exit(0);
+    }
+    fclose(libfp), fclose(tempfp);
+    // 构建记录，添加进stu
+    time_t rawtime;
+    time(&rawtime);
+    Rec rec = { bookFound, ctime(&rawtime), 1 };
+    stu.rec[stu.recNum++] = rec;
+    while (stu.recNum >= 16) {
+        // 让stu.recNum始终保持15条
+        for (int i = 0; i < stu.recNum; ++i) {
+            stu.rec[i] = stu.rec[i + 1];
+        }
+        --stu.recNum;
+    }
+    // 修改完成，进入修改student.dat阶段
+    if ((err = fopen(&stufp, ".\\student.dat", "r+")) != 0) { // failed to open the file
+        printf("\t错误：无法打开student.dat，错误代码%d\n", err);
+        printf("\t程序退出中...\n");
+        exit(0);
+    }
+    if ((err = fopen(&tempfp, ".\\.student_temp.dat", "w+")) != 0) { // failed to open the file
+        printf("\t错误：无法打开.student_temp.dat，错误代码%d\n", err);
+        printf("\t程序退出中...\n");
+        exit(0);
+    }
+    n = countStu();
+    Stu stutemp;
+    for (int i = 0; i < n; ++i) {
+        fread(&stutemp, sizeof(Stu), 1, stufp);
+        if (i == stuIndex)
+            fwrite(&stu, sizeof(Stu), 1, tempfp);
+        else
+            fwrite(&stutemp, sizeof(Stu), 1, tempfp);
+    }
+    remove(".\\student.dat");
+    if (rename(".\\.student_tmp.dat", ".\\student.dat") == 0) {
+        // 重命名成功
+        printf("\t成功归还书本：%s\n", bookFound.name);
+    }
+    else {
+        printf("\t错误：无法修改.library_tmp.dat为library.dat\n");
+        printf("\t程序退出中...\n");
+        exit(0);
+    }
+}
