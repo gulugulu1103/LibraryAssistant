@@ -9,7 +9,7 @@ int countStu() {
     // 该函数返回学生总数
     errno_t err; // 用来记录文件打开错误信息
     FILE* fp;
-    if ((err = fopen(&fp, ".\\student.dat", "r+")) != 0) { // failed to open the file
+    if ((err = fopen_s(&fp, ".\\student.dat", "r+")) != 0) { // failed to open the file
         printf("\t错误：无法打开student.dat，错误代码%d\n", err);
         printf("\t程序退出中...\n");
         exit(0);
@@ -30,7 +30,7 @@ void addStu(char* num) {
     // 在"student.dat"中以追加模式新建以num为学号的学生
     errno_t err; // 用来记录文件打开错误信息
     FILE* fp;
-    if ((err = fopen(&fp, ".\\student.dat", "a+")) != 0) { // failed to open the file
+    if ((err = fopen_s(&fp, ".\\student.dat", "a+")) != 0) { // failed to open the file
         printf("\t错误：无法打开student.dat，错误代码%d\n", err);
         printf("\t程序退出中...\n");
         exit(0);
@@ -48,7 +48,7 @@ int searchStu(char* num) {
     int index = -1;
     errno_t err; // 用来记录文件打开错误信息
     FILE* fp;
-    if ((err = fopen(&fp, ".\\student.dat", "r+")) != 0) { // failed to open the file
+    if ((err = fopen_s(&fp, ".\\student.dat", "r+")) != 0) { // failed to open the file
         printf("\t错误：无法打开student.dat，错误代码%d\n", err);
         printf("\t程序退出中...\n");
         exit(0);
@@ -74,7 +74,7 @@ void showStu(char* num) {
     // 调用searchStu()函数, 输出以num为学号的学生的近15条借阅记录
     errno_t err; // 用来记录文件打开错误信息
     FILE* fp;
-    if ((err = fopen(&fp, ".\\student.dat", "r+")) != 0) { // failed to open the file
+    if ((err = fopen_s(&fp, ".\\student.dat", "r+")) != 0) { // failed to open the file
         printf("\t错误：无法打开student.dat，错误代码%d\n", err);
         printf("\t程序退出中...\n");
         exit(0);
@@ -92,7 +92,7 @@ void showStu(char* num) {
     Rec rec; // 记录
     for (int i = 0; i < stu.recNum; i++) {
         rec = stu.rec[i];
-        printf("\t %d | 《%s》 | %s | %s\n", i, rec.book.name, rec.time, rec.borrow ?  " 借出":"归还");
+        printf("\t %d | 《%s》 | %s | %s\n", i, rec.book.name, rec.time, rec.borro ?  "   借出":"归还");
     }
 }
 
@@ -108,7 +108,7 @@ void borrowBook(char* num) {
         printf("\t程序返回中...\n");
         return;
     }
-    if ((err = fopen(&stufp, ".\\student.dat", "r+")) != 0) { // failed to open the file
+    if ((err = fopen_s(&stufp, ".\\student.dat", "r+")) != 0) { // failed to open the file
         printf("\t错误：无法打开student.dat，错误代码%d\n", err);
         printf("\t程序退出中...\n");
         exit(0);
@@ -129,12 +129,12 @@ void borrowBook(char* num) {
     int destination;
     scanf("%d", &destination);
     FILE* libfp, * tempfp;
-    if ((err = fopen(&libfp, ".\\library.dat", "r+")) != 0) { // failed to open the file
+    if ((err = fopen_s(&libfp, ".\\library.dat", "r+")) != 0) { // failed to open the file
         printf("\t错误：无法打开library.dat，错误代码%d\n", err);
         printf("\t程序退出中...\n");
         exit(0);
     }
-    if ((err = fopen(&tempfp, ".\\.library_temp.dat", "w+")) != 0) { // failed to open the file
+    if ((err = fopen_s(&tempfp, ".\\.library_temp.dat", "w+")) != 0) { // failed to open the file
         printf("\t错误：无法打开library.dat，错误代码%d\n", err);
         printf("\t程序退出中...\n");
         exit(0);
@@ -175,12 +175,12 @@ void borrowBook(char* num) {
         --stu.recNum;
     }
     // 修改完成，进入修改student.dat阶段
-    if ((err = fopen(&stufp, ".\\student.dat", "r+")) != 0) { // failed to open the file
+    if ((err = fopen_s(&stufp, ".\\student.dat", "r+")) != 0) { // failed to open the file
         printf("\t错误：无法打开student.dat，错误代码%d\n", err);
         printf("\t程序退出中...\n");
         exit(0);
     }
-    if ((err = fopen(&tempfp, ".\\.student_temp.dat", "w+")) != 0) { // failed to open the file
+    if ((err = fopen_s(&tempfp, ".\\.student_temp.dat", "w+")) != 0) { // failed to open the file
         printf("\t错误：无法打开.student_temp.dat，错误代码%d\n", err);
         printf("\t程序退出中...\n");
         exit(0);
@@ -217,7 +217,7 @@ void returnBook(char* num) {
         printf("\t程序返回中...\n");
         return;
     }
-    if ((err = fopen(&stufp, ".\\student.dat", "r+")) != 0) { // failed to open the file
+    if ((err = fopen_s(&stufp, ".\\student.dat", "r+")) != 0) { // failed to open the file
         printf("\t错误：无法打开student.dat，错误代码%d\n", err);
         printf("\t程序退出中...\n");
         exit(0);
@@ -251,12 +251,12 @@ void returnBook(char* num) {
     stu.oweNum--;
     // 修改library.dat, 将此书籍数+1
     FILE* libfp, * tempfp;
-    if ((err = fopen(&libfp, ".\\library.dat", "r+")) != 0) { // failed to open the file
+    if ((err = fopen_s_s(&libfp, ".\\library.dat", "r+")) != 0) { // failed to open the file
         printf("\t错误：无法打开library.dat，错误代码%d\n", err);
         printf("\t程序退出中...\n");
         exit(0);
     }
-    if ((err = fopen(&tempfp, ".\\.library_temp.dat", "w+")) != 0) { // failed to open the file
+    if ((err = fopen_s(&tempfp, ".\\.library_temp.dat", "w+")) != 0) { // failed to open the file
         printf("\t错误：无法打开library.dat，错误代码%d\n", err);
         printf("\t程序退出中...\n");
         exit(0);
@@ -292,12 +292,12 @@ void returnBook(char* num) {
         --stu.recNum;
     }
     // 修改完成，进入修改student.dat阶段
-    if ((err = fopen(&stufp, ".\\student.dat", "r+")) != 0) { // failed to open the file
+    if ((err = fopen_s(&stufp, ".\\student.dat", "r+")) != 0) { // failed to open the file
         printf("\t错误：无法打开student.dat，错误代码%d\n", err);
         printf("\t程序退出中...\n");
         exit(0);
     }
-    if ((err = fopen(&tempfp, ".\\.student_temp.dat", "w+")) != 0) { // failed to open the file
+    if ((err = fopen_s(&tempfp, ".\\.student_temp.dat", "w+")) != 0) { // failed to open the file
         printf("\t错误：无法打开.student_temp.dat，错误代码%d\n", err);
         printf("\t程序退出中...\n");
         exit(0);
