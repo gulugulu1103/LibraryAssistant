@@ -122,13 +122,34 @@ void borrowBook(char* num) {
         printf("\t程序返回中...\n");
         return;
     }
-    // 该学生可以借书，进入修改library.dat阶段
+    // 该学生可以借书，列出书籍，询问想借阅的书籍
     printf("\t现有如下书目\n");
     listBook();
     printf("\t请输入借阅的书目序号\n");
+    FILE* libfp, * tempfp;
     int destination;
     scanf("%d", &destination);
-    FILE* libfp, * tempfp;
+    if (destination < 0 || destination >= countBook()) {
+        printf("\t错误：输入了错误的书目序号\n");
+        printf("\t程序返回中\n");
+        return;
+    }
+    // 检测该书籍是否还有库存(即book.num > 0)
+    if ((err = fopen_s(&libfp, ".\\library.dat", "r+")) != 0) { // failed to open the file
+        printf("\t错误：无法打开library.dat，错误代码%d\n", err);
+        printf("\t程序退出中...\n");
+        exit(0);
+    }
+    fseek(libfp, destination * sizeof(Book), SEEK_SET);
+    Book book, bookFound; //book用于遍历library.dat，bookFound用于记录到借阅记录中
+    fread(&bookFound, sizeof(Book), 1, libfp);
+    fclose(libfp);
+    if (bookFound.num <= 0) { // bookFound.num 不可以-1
+        printf("错误：该书目不可借阅，因为其数量为0");
+        printf("\t程序返回中...\n");
+        return;
+    }
+    // 已经选择目标书目，进入修改library.dat阶段，让所选书目数量-1
     if ((err = fopen_s(&libfp, ".\\library.dat", "r+")) != 0) { // failed to open the file
         printf("\t错误：无法打开library.dat，错误代码%d\n", err);
         printf("\t程序退出中...\n");
@@ -141,19 +162,16 @@ void borrowBook(char* num) {
     }
     fseek(libfp, 0, SEEK_SET), fseek(tempfp, 0, SEEK_SET);
     int n = countBook();
-    Book book, bookFound;
     for (int i = 0; i < n; ++i) {
         fread(&book, sizeof(Book), 1, libfp);
-        if (book.num <= 0) {
-            --i;
-            continue;
-        }
         if (i == destination) {
-            --book.num;
-            stu.owe[stu.oweNum++] = bookFound = book;
-            // 操作内存中的学生
+            --bookFound.num;
+            stu.owe[stu.oweNum++] = bookFound; // 修改内存中的学生，在owe数组中添加该book
+            fwrite(&bookFound, sizeof(Book), 1, tempfp);
         }
-        fwrite(&book, sizeof(Book), 1, tempfp);
+        else {
+            fwrite(&book, sizeof(Book), 1, tempfp);
+        }
     }
     remove(".\\library.dat");
     if (rename(".\\.library_tmp.dat", ".\\library.dat") != 0) {
@@ -162,7 +180,7 @@ void borrowBook(char* num) {
         exit(0);
     }
     fclose(libfp), fclose(tempfp);
-    // 构建记录，添加进stu
+    // 构建记录rec，添加进stu的借还表中
     time_t rawtime;
     time(&rawtime);
     Rec rec = { bookFound, ctime(&rawtime), 1 };
@@ -174,7 +192,7 @@ void borrowBook(char* num) {
         }
         --stu.recNum;
     }
-    // 修改完成，进入修改student.dat阶段
+    // 修改内存stu完成，进入修改student.dat阶段
     if ((err = fopen_s(&stufp, ".\\student.dat", "r+")) != 0) { // failed to open the file
         printf("\t错误：无法打开student.dat，错误代码%d\n", err);
         printf("\t程序退出中...\n");
@@ -185,12 +203,14 @@ void borrowBook(char* num) {
         printf("\t程序退出中...\n");
         exit(0);
     }
+    fseek(stufp, 0, SEEK_SET), fseek(tempfp, 0, SEEK_SET);
     n = countStu();
     Stu stutemp;
     for (int i = 0; i < n; ++i) {
         fread(&stutemp, sizeof(Stu), 1, stufp);
         if (i == stuIndex)
             fwrite(&stu, sizeof(Stu), 1, tempfp);
+            //因为写入library时已经修改过了借还表，所以现在直接写入
         else
             fwrite(&stutemp, sizeof(Stu), 1, tempfp);
     }
