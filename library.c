@@ -72,7 +72,7 @@ void listBook()
         printf("\t程序退出中...\n");
         exit(0);
     }
-    int i, record;
+    int i, record,number = 0;
     Book book[i];
     record = countBook();
     if (record <= 0)
@@ -84,10 +84,11 @@ void listBook()
 		
 		printf("\t|**********************************************************************|\n");
 		printf("\n\n");
-		printf("\t%-6s%-16s%-10s\n", "编号", "书名", "类型");
+		printf("\t%-16s%-10s\n", "书名", "类型");
     	for (i = 0;i < record;i++)
     	{
-    		printf("\t%-6d%-16s%-10s\n",book[i].num,book[i].name,book[i].type);
+    		printf("\t%d%-16s%-10s\n",number,book[i].name,book[i].type);
+    		n++;
 		}
 		printf("\n\n");
 		printf("\t|**********************************************************************|\n");
