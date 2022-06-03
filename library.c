@@ -1,4 +1,4 @@
-#include <stdlib.h>
+ #include <stdlib.h>
 #include <stdio.h>
 #include "class.h"
 void addBook()
@@ -28,27 +28,24 @@ void addBook()
 	while (Flag == 'y')
 	{ 
 		//图书编号不能重复
-		printf("请按顺序输入书名，书籍类型：\n");
+		printf("请按顺序输入书名，书籍类型：（中间空格隔开）\n");
 		do
 		{
 			flag = 0;
-			scanf("%d", &ibook[n-1].num);
+			scanf("%s %s", &ibook[n-1].name, &ibook[n-1].type);
 			for (i = 0; i < n; i++)
 			{
-				if (book[i].num == ibook[n-1].num)
+				if (strcmp(book[i].name,ibook[n-1].name) != 0)
 				{
-					flag = 1;
-					printf("\t该图书编号已经存在,请重新输入:   ");
 					break;
 				}
 			}
+			if (i == n-1)
+			{
+				printf("\t该图书已经存在,请重新输入:   ");
+				break;
+			} 
 		} while (flag == 1);
-	
-		printf("\t请输入图书名称:");
-		scanf("%s", ibook[n-1].name);
-		printf("\t请输入图书类型:");
-		scanf("%s", ibook[n-1].type);
-		
 		//将新书目写入
 		if (fwrite(&ibook[n-1], sizeof(Book), 1, temp) != 1)
 		{
@@ -64,7 +61,7 @@ void addBook()
 		Flag = getchar();
 	}
 	fclose(temp);
-	printf("\t添加图书信息执行完毕!\n");
+	printf("\t添加该图书信息执行完毕!\n");
 }
 void listBook()
 {
@@ -116,7 +113,7 @@ int  countBook()
 	}
 	if (!feof(fp))
 	{
-		printf("\t未能够读到文末")； 
+		printf("\t未能够读到文末"); 
 	}
 	fclose(fp);
 	return record; 
