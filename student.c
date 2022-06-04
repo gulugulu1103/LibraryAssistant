@@ -49,6 +49,12 @@ void addStu(char* num) {
     }
     Stu stu; // 初始化一个学生
     stu.oweNum = stu.recNum = 0;
+    Book book;
+    Rec rec;
+    for (int i = 0; i < 21; i++) {
+        stu.owe[i] = book;
+        stu.rec[i] = rec;
+    }
     strcpy(stu.num, num);
     fwrite(&stu, sizeof(Stu), 1, fp);
     printf("\t成功添加学号为%s学生\n", stu.num);
@@ -81,9 +87,9 @@ int searchStu(char* num) {
         }
         ++i;
     }
-    if (!feof(fp)) { // 未读到文末
-        printf("\t软错误：文件无法读到文末\n");
-    }
+    // if (!feof(fp)) { // 未读到文末
+    //     printf("\t软错误：文件无法读到文末\n");
+    // }
     fclose(fp);
     return index;
 }
@@ -116,7 +122,7 @@ void showStu(char* num) {
     for (int i = 0; i < stu.recNum; i++) {
         rec = stu.rec[i];
         printf("\t %d | 《%s》 | %s | %s\n", i, \
-            rec.book.name, rec.time, (rec.borrow ? " 借 出       ":"归还"));
+            rec.book.name, rec.time, (rec.borrow ? " 借 出         ":"归还"));
     }
 }
 
@@ -215,14 +221,15 @@ void borrowBook(char* num) {
             fwrite(&book, sizeof(Book), 1, tempfp);
         }
     }
+    fclose(libfp), fclose(tempfp);
     remove(".\\library.dat");
-    if (rename(".\\.library_tmp.dat", ".\\library.dat") != 0) {
-        printf("\t错误：无法修改.library_tmp.dat为library.dat\n");
+    if (rename(".\\.library_temp.dat", ".\\library.dat") == -1) {
+        printf("errno = %d\n: %s", errno, strerror(errno));
+        printf("\t错误：无法修改.library_temp.dat为library.dat\n");
         printf("\t程序退出中...\n");
         system("PAUSE");
         exit(0);
     }
-    fclose(libfp), fclose(tempfp);
     // 构建记录rec，添加进stu的借还表中
     time_t rawtime;
     time(&rawtime);
@@ -268,13 +275,14 @@ void borrowBook(char* num) {
         else
             fwrite(&stutemp, sizeof(Stu), 1, tempfp);
     }
+    fclose(tempfp), fclose(libfp), fclose(stufp);
     remove(".\\student.dat");
-    if (rename(".\\.student_tmp.dat", ".\\student.dat") == 0) {
+    if (rename(".\\.student_temp.dat", ".\\student.dat") == 0) {
         // 重命名成功
         printf("\t成功借阅书本：%s\n", bookFound.name);
     }
     else {
-        printf("\t错误：无法修改.library_tmp.dat为library.dat\n");
+        printf("\t错误：无法修改.library_temp.dat为library.dat\n");
         printf("\t程序退出中...\n");
         system("PAUSE");
         exit(0);
@@ -359,14 +367,15 @@ void returnBook(char* num) {
         }
         fwrite(&book, sizeof(Book), 1, tempfp);
     }
+    fclose(libfp), fclose(tempfp), fclose(stufp);
     remove(".\\library.dat");
-    if (rename(".\\.library_tmp.dat", ".\\library.dat") != 0) {
-        printf("\t错误：无法修改.library_tmp.dat为library.dat\n");
+    if (rename(".\\.library_temp.dat", ".\\library.dat") == -1) {
+        printf("errno = %d\n: %s", errno, strerror(errno));
+        printf("\t错误：无法修改.library_temp.dat为library.dat\n");
         printf("\t程序退出中...\n");
         system("PAUSE");
         exit(0);
     }
-    fclose(libfp), fclose(tempfp);
     // 构建记录，添加进stu
     time_t rawtime;
     time(&rawtime);
@@ -391,12 +400,14 @@ void returnBook(char* num) {
             errno = 0; // 错误恢复标志
             return;
         }
+        printf("errno = %d\n: %s", errno, strerror(errno));
         printf("\t错误：无法打开student.dat，错误代码%d：%s\n", errno, strerror(errno));
         system("PAUSE");
         exit(0);
     }
     tempfp = fopen(".\\.student_temp.dat", "w+");
     if (!tempfp) {
+        printf("errno = %d\n: %s", errno, strerror(errno));
         printf("\t错误：无法打开.student_temp.dat，错误代码%d：%s\n", errno, strerror(errno));
         system("PAUSE");
         exit(0);
@@ -410,16 +421,16 @@ void returnBook(char* num) {
         else
             fwrite(&stutemp, sizeof(Stu), 1, tempfp);
     }
-    fclose(stufp), fclose(tempfp);
+    fclose(stufp), fclose(tempfp), fclose(libfp);
     remove(".\\student.dat");
-    if (rename(".\\.student_tmp.dat", ".\\student.dat") == 0) {
-        // 重命名成功
-        printf("\t成功归还书本：%s\n", bookFound.name);
-    }
-    else {
-        printf("\t错误：无法修改.library_tmp.dat为library.dat\n");
+    printf("errno = %d\n: %s", errno, strerror(errno));
+    if (rename(".\\.student_temp.dat", ".\\student.dat") == -1) {
+        printf("errno = %d\n: %s", errno, strerror(errno));
+        printf("\t错误：无法修改.student_temp.dat为student.dat\n");
         printf("\t程序退出中...\n");
         system("PAUSE");
         exit(0);
+        // 重命名失败
     }
+    printf("\t成功归还书本：%s\n", bookFound.name);
 }

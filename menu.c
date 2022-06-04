@@ -20,7 +20,7 @@ int numCheck(char* str) {
 */
 
 void adminMenu() {
-    system("cls");
+
     printf("\t输入管理员密码以继续\n\t");
     char password[128], num[128];
     scanf("%s", &password);
@@ -31,7 +31,7 @@ void adminMenu() {
     // 密码校验成功，进入管理员模式
     while (1) {
         int choice;
-        system("cls");
+
         printf("----------------------------------------------------------------");
         printf("\t       管理员模式\n");
         printf("\t 1.录入图书信息    \t2.修改图书信息\n");
@@ -67,7 +67,7 @@ void adminMenu() {
         case 6:
             printf("\t请录入学号\n\t");
             scanf("%s", num);
-            fflush(stdin);
+            printf("%s", num);
             if (!numCheck(num)) {
                 printf("\t学号不合法，必须是10位数数字\n");
                 break;
@@ -88,7 +88,7 @@ void adminMenu() {
 
 
 void stuMenu() {
-    system("cls");
+
     printf("\t输入学号以继续\n\t");
     char num[128];
     scanf("%s", &num);
@@ -98,7 +98,7 @@ void stuMenu() {
     }
     // 密码校验成功，进入管理员模式
     while (1) {
-        system("cls");
+
         int choice;
         printf("----------------------------------------------------------------");
         printf("\t       学生模式\n");
@@ -133,7 +133,7 @@ void stuMenu() {
 
 //菜单，用户友好为宗旨，提示信息必须要有，界面用户友好
 void mainMenu() {
-    system("cls");
+
     int choice;
     printf("----------------------------------------------------------------");
     printf("\t\t程序设计与实践\t期末大作业\n");

@@ -21,7 +21,7 @@ int countBook()
         record++;
     }
     fclose(fp);
-    return record-1;
+    return record - 1;
 }
 
 void listBook()
@@ -45,7 +45,7 @@ void listBook()
         }
         printf("\t|**********************************************************************|\n");
         printf("\n\n");
-        printf("\t%-16s%-10s%-6s\n", "书名", "  类型","数量");
+        printf("\t%-16s%-10s%-6s\n", "书名", "   类型","数量");
         for (int i = 0; i < n; i++)
         {
             fread(&book, sizeof(Book), 1, fp);
@@ -129,25 +129,7 @@ void addBook()
         //循环加入书目 
         //输入需要添加的书本信息 
         printf("\t请按顺序输入书名,书籍类型,书目数量：（中间空格隔开）\n");
-        do
-        {
-            flag = 1;
-            scanf("%s %s %d", &ibook.name, &ibook.type, &ibook.num);
-            for (i = 0;i < n;i++)
-            {
-                fread(&book, sizeof(Book), 1, temp);
-                if (strcmp(ibook.name, book.name) == 0)
-                {
-                    printf("\t该图书已经存在,请重新输入:   ");
-                    break;
-                }
-                else
-                {
-                    flag = 0;
-                }
-            }
-        } while (flag == 1);
-        //将新书目写入
+        scanf("%s %s %d", &ibook.name, &ibook.type, &ibook.num);
         if (fwrite(&ibook, sizeof(Book), 1, temp) != 1)
         {
             printf("\t无法保存该信息!\n");
@@ -156,7 +138,6 @@ void addBook()
         else
         {
             printf("\t新图书信息已经保存!\n");
-            n++;
         }
         fclose(temp);
         printf("\t添加该图书信息执行完毕!\n");
@@ -197,15 +178,15 @@ void delBook() {
         if (i == input) continue;
         else fwrite(&book, sizeof(Book), 1, temp);
     }
+    fclose(fp), fclose(temp);
     remove(".\\library.dat");
-    if (rename(".\\.library_tmp.dat", ".\\library.dat") == 0) {
+    if (rename(".\\.library_temp.dat", ".\\library.dat") == 0) {
         // 重命名成功
         printf("\t删除成功\n");
     }
     else {
-        printf("\t错误：无法修改library_tmp.dat为library.dat\n");
+        printf("\t错误：无法修改library_temp.dat为library.dat\n");
         printf("\t程序退出中...\n");
-        fclose(fp), fclose(temp);
         system("PAUSE");
         exit(0);
     }
@@ -250,13 +231,14 @@ void editBook() {
         if (i == input) fwrite(&edited, sizeof(Book), 1, temp);
         else fwrite(&book, sizeof(Book), 1, temp);
     }
+    fclose(fp), fclose(temp);
     remove(".\\library.dat");
-    if (rename(".\\.library_tmp.dat", ".\\library.dat") == 0) {
+    if (rename(".\\.library_temp.dat", ".\\library.dat") == 0) {
         // 重命名成功
         printf("\t成功修改书名为：%s\n", edited.name);
     }
     else {
-        printf("\t错误：无法修改.library_tmp.dat为library.dat\n");
+        printf("\t错误：无法修改.library_temp.dat为library.dat\n");
         printf("\t程序退出中...\n");
         system("PAUSE");
         exit(0);
