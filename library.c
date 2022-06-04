@@ -53,6 +53,7 @@ void addBook()
     fclose(temp);
     printf("\t添加该图书信息执行完毕!\n");
 }
+
 void listBook()
 {
     errno = 0;

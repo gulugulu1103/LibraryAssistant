@@ -106,8 +106,8 @@ void borrowBook(char* num) {
         printf("\t程序返回中...\n");
         return;
     }
-    FILE* fp = fopen(".\\student.dat", "r+");
-    if (!fp) {
+    FILE* stufp = fopen(".\\student.dat", "r+");
+    if (!stufp) {
         printf("\t错误：无法打开student.dat，错误代码%d：%s\n", errno, strerrno(errno));
         exit(0);
     }
@@ -124,7 +124,7 @@ void borrowBook(char* num) {
     printf("\t现有如下书目\n");
     listBook();
     printf("\t请输入借阅的书目序号\n");
-    FILE* libfp, * tempfp;
+    FILE* libfp, * tempfp, *stufp;
     int destination;
     scanf("%d", &destination);
     if (destination < 0 || destination >= countBook()) {
@@ -133,7 +133,7 @@ void borrowBook(char* num) {
         return;
     }
     // 检测该书籍是否还有库存(即book.num > 0)
-    FILE* libfp = fopen(".\\library.dat", "r+");
+    libfp = fopen(".\\library.dat", "r+");
     if (!libfp) {
         printf("\t错误：无法打开library.dat，错误代码%d：%s\n", errno, strerrno(errno));
         exit(0);
@@ -148,12 +148,12 @@ void borrowBook(char* num) {
         return;
     }
     // 已经选择目标书目，进入修改library.dat阶段，让所选书目数量-1
-    FILE* libfp = fopen(".\\library.dat", "r+");
+    libfp = fopen(".\\library.dat", "r+");
     if (!libfp) {
         printf("\t错误：无法打开library.dat，错误代码%d：%s\n", errno, strerrno(errno));
         exit(0);
     }
-    FILE* tempfp = fopen(".\\.library_temp.dat", "w+");
+    tempfp = fopen(".\\.library_temp.dat", "w+");
     if (!tempfp) {
         printf("\t错误：无法打开.library_temp.dat，错误代码%d：%s\n", errno, strerrno(errno));
         exit(0);
@@ -191,12 +191,12 @@ void borrowBook(char* num) {
         --stu.recNum;
     }
     // 修改内存stu完成，进入修改student.dat阶段
-    FILE* stufp = fopen(".\\student.dat", "r+");
+    stufp = fopen(".\\student.dat", "r+");
     if (!stufp) {
         printf("\t错误：无法打开student.dat，错误代码%d：%s\n", errno, strerrno(errno));
         exit(0);
     }
-    FILE* tempfp = fopen(".\\.student_temp.dat", "w+");
+    tempfp = fopen(".\\.student_temp.dat", "w+");
     if (!tempfp) {
         printf("\t错误：无法打开.student_temp.dat，错误代码%d：%s\n", errno, strerrno(errno));
         exit(0);
@@ -227,7 +227,7 @@ void borrowBook(char* num) {
 void returnBook(char* num) {
     // 该函数会输出以num为学号未归还的书籍，让学生选择选项归还
     errno = 0; // 用来记录文件打开错误信息
-    FILE* stufp;
+    FILE* stufp, *tempfp, *libfp;
     Stu stu;
     int stuIndex = searchStu(num);
     if (stuIndex == -1) {
@@ -235,7 +235,7 @@ void returnBook(char* num) {
         printf("\t程序返回中...\n");
         return;
     }
-    FILE* stufp = fopen(".\\student.dat", "r+");
+    stufp = fopen(".\\student.dat", "r+");
     if (!stufp) {
         printf("\t错误：无法打开student.dat，错误代码%d：%s\n", errno, strerrno(errno));
         exit(0);
@@ -268,12 +268,12 @@ void returnBook(char* num) {
     }
     stu.oweNum--;
     // 修改library.dat, 将此书籍数+1
-    FILE* libfp = fopen(".\\library.dat", "r+");
+    libfp = fopen(".\\library.dat", "r+");
     if (!libfp) {
         printf("\t错误：无法打开library.dat，错误代码%d：%s\n", errno, strerrno(errno));
         exit(0);
     }
-    FILE* tempfp = fopen(".\\.library_temp.dat", "w+");
+    tempfp = fopen(".\\.library_temp.dat", "w+");
     if (!tempfp) {
         printf("\t错误：无法打开.library_temp.dat，错误代码%d：%s\n", errno, strerrno(errno));
         exit(0);
@@ -309,12 +309,12 @@ void returnBook(char* num) {
         --stu.recNum;
     }
     // 修改完成，进入修改student.dat阶段
-    FILE* stufp = fopen(".\\student.dat", "r+");
+    stufp = fopen(".\\student.dat", "r+");
     if (!stufp) {
         printf("\t错误：无法打开student.dat，错误代码%d：%s\n", errno, strerrno(errno));
         exit(0);
     }
-    FILE* tempfp = fopen(".\\.student_temp.dat", "w+");
+    tempfp = fopen(".\\.student_temp.dat", "w+");
     if (!tempfp) {
         printf("\t错误：无法打开.student_temp.dat，错误代码%d：%s\n", errno, strerrno(errno));
         exit(0);
@@ -328,6 +328,7 @@ void returnBook(char* num) {
         else
             fwrite(&stutemp, sizeof(Stu), 1, tempfp);
     }
+    fclose(stufp), fclose(tempfp);
     remove(".\\student.dat");
     if (rename(".\\.student_tmp.dat", ".\\student.dat") == 0) {
         // 重命名成功
