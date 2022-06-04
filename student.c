@@ -418,19 +418,20 @@ void returnBook(char* num) {
         fread(&stutemp, sizeof(Stu), 1, stufp);
         if (i == stuIndex)
             fwrite(&stu, sizeof(Stu), 1, tempfp);
+        //因为写入library时已经修改过了借还表，所以现在直接写入
         else
             fwrite(&stutemp, sizeof(Stu), 1, tempfp);
     }
-    fclose(stufp), fclose(tempfp), fclose(libfp);
+    fclose(tempfp), fclose(libfp), fclose(stufp);
     remove(".\\student.dat");
-    printf("errno = %d\n: %s", errno, strerror(errno));
-    if (rename(".\\.student_temp.dat", ".\\student.dat") == -1) {
-        printf("errno = %d\n: %s", errno, strerror(errno));
-        printf("\t错误：无法修改.student_temp.dat为student.dat\n");
+    if (rename(".\\.student_temp.dat", ".\\student.dat") == 0) {
+        // 重命名成功
+        printf("\t成功借阅书本：%s\n", bookFound.name);
+    }
+    else {
+        printf("\t错误：无法修改.library_temp.dat为library.dat\n");
         printf("\t程序退出中...\n");
         system("PAUSE");
         exit(0);
-        // 重命名失败
     }
-    printf("\t成功归还书本：%s\n", bookFound.name);
 }
