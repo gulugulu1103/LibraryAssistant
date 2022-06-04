@@ -1,4 +1,4 @@
- #include <stdlib.h>
+#include <stdlib.h>
 #include <stdio.h>
 #include "class.h"
 void addBook()
@@ -15,51 +15,43 @@ void addBook()
     }
     printf("\t现有如下书目\n");
     listBook();
-    printf("\t请选择是否添加书本信息(y/n):");
     Flag = getchar();
-    if (Flag == 'n')
-	{
-		fclose(temp);
-		exit(0); 
-	}
 	int i = 0,flag;
 	int n = countBook();
 	//循环加入书目 
-	while (Flag == 'y')
-	{ 
-		//输入需要添加的书本信息 
-		printf("\t请按顺序输入书名，书籍类型：（中间空格隔开）\n");
-		do
+	//输入需要添加的书本信息 
+	printf("\t请按顺序输入书名,书籍类型,书目数量：（中间空格隔开）\n");
+	do
+	{
+		flag = 1;
+		scanf("%s %s %d", &ibook.name, &ibook.type, %ibook.num);
+		for (i = 0;i < n;i++)
 		{
-			flag = 1;
-			scanf("%s %s", &ibook.name, &ibook.type);
-			for (fread(&book, sizeof(Book), 1, temp) != EOF)
+			fread(&book,sizeof(Book),1,temp);
+			if (strcmp(ibook.name,book.name) == 0)
 			{
-				if (strcmp(ibook.name,book.name) == 0)
-				{
-					printf("\t该图书已经存在,请重新输入:   ");
-					break;
-				}
-				else
-				{
-					flag = 0;
-				} 
+				printf("\t该图书已经存在,请重新输入:   ");
+				break;
 			}
-		} while (flag == 1);
-		//将新书目写入
-		if (fwrite(&ibook, sizeof(Book), 1, temp) != 1)
-		{
-			printf("\t无法保存该信息!\n");
-			return 0;
+			else
+			{
+				flag = 0;
+			} 
 		}
-		else
-		{
-			printf("\t新图书信息已经保存!\n");
-			n++;
-		}
-		printf("\t继续输入信息吗?(y/n)");
-		Flag = getchar();
+	} while (flag == 1);
+	//将新书目写入
+	if (fwrite(&ibook, sizeof(Book), 1, temp) != 1)
+	{
+		printf("\t无法保存该信息!\n");
+		return 0;
 	}
+	else
+	{
+		printf("\t新图书信息已经保存!\n");
+		n++;
+	}
+	printf("\t继续输入信息吗?(y/n)");
+	Flag = getchar();
 	fclose(temp);
 	printf("\t添加该图书信息执行完毕!\n");
 }
@@ -74,28 +66,31 @@ void listBook()
         printf("\t程序退出中...\n");
         exit(0);
     }
-    int i,number = 0;
+    int i,number = 0,n;
+    n = countBook();
+    char ch;//判断文件是否为空 
     Book book;
-    if (record <= 0)
-    {
-    	printf ("\t当前图书库里缺少书籍，请先添加书目");
-	}
+    ch = fgets(fp);
+    if(ch == EOF)
+	{
+		printf("暂时无书目记录，请先添加书目！"); 
+	} 
 	else
-	{ 
-		
+	{
 		printf("\t|**********************************************************************|\n");
 		printf("\n\n");
-		printf("\t%-16s%-10s\n", "书名", "类型");
-    	for (fread(&book, sizeof(Book), 1, fp) != EOF)
-    	{
-    		printf("\t%d%-16s%-10s\n",number,book.name,book.type);
-    		number++;
+		printf("\t%-16s%-10s%-6d\n", "书名", "类型","数量");
+	   	for (int i = 0; i < n; i++) 
+		{
+        	fread(&book, sizeof(Book), 1, fp);
+	   		printf("\t%d%-16s%-10s%-6d\n",number,book.name,book.type,book.num);
+	   		number++;
 		}
 		printf("\n\n");
 		printf("\t|**********************************************************************|\n");
 		printf("\n\n");
-
-	}	
+	}
+	fclose(fp); 
 	return 0; 
 }
 int  countBook()
@@ -109,13 +104,10 @@ int  countBook()
         printf("\t程序退出中...\n");
         exit(0);
     }
-    while (fread(&book, sizeof(Book), 1, fp) != EOF)
+	while(!feof(fp))
 	{
-			record++;
-	}
-	if (!feof(fp))
-	{
-		printf("\t未能够读到文末"); 
+		fread(&book,sizeof(Book),1,fp);
+		record++;
 	}
 	fclose(fp);
 	return record; 
