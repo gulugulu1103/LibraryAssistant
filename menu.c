@@ -4,6 +4,21 @@
 #include "library.h"
 #include "student.h"
 
+int numCheck(char* str) {
+    int n = strlen(str), cnt = 0;
+    if (n != 10) return 0;
+    for (int i = 0; i < n; i++) {
+        if (str[i] >= '0' && str[i] <= '9') ++cnt;
+    }
+    return n == cnt;
+}
+// 该函数用于检验str是否是10位全数字字符串。（检查字符串）
+/*
+功能1：判断输入的是否全部是数字，如果不是数字，提示循环输入；
+功能2：当输入的是数字时，则停止循环。
+*/
+
+
 //菜单宏，用户友好为宗旨，提示信息必须要有，界面用户友好
 void mainMenu() {
     int choice;
@@ -97,22 +112,6 @@ void adminMenu() {
 功能2：需要用户验证管理员密码，如果是预设的密码1234即通过，否则则返回-1；
 功能3：验证密码完成之后才打印菜单，菜单中包含对书籍信息的增删查改选项。
 */
-
-
-int numCheck(char* str) {
-    int n = strlen(str), cnt = 0;
-    if (n != 10) return 0;
-    for (int i = 0; i < n; i++) {
-        if (str[i] >= '0' && str[i] <= '9') ++cnt;
-    }
-    return n == cnt;
-}
-// 该函数用于检验str是否是10位全数字字符串。（检查字符串）
-/*
-功能1：判断输入的是否全部是数字，如果不是数字，提示循环输入；
-功能2：当输入的是数字时，则停止循环。
-*/
-
 
 int stuMenu() {
     printf("\t输入学号以继续\n\t");
