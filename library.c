@@ -4,21 +4,21 @@
 void addBook()
 {
 	FILE * temp;
-	Book ibook;//ÓÃÒÔÌí¼Ó¶îÍâÊé¼®µÄ±äÁ¿ibook 
-	Book book;// ³õÊ¼»¯Ò»¸öbook; 
-    errno_t err; // ×¨ÃÅÓÃÀ´¼ÇÂ¼´íÎóµÄ±äÁ¿£¬±¾ÖÊÊÇÒ»¸öint
+	Book ibook;//ç”¨ä»¥æ·»åŠ é¢å¤–ä¹¦ç±çš„å˜é‡ibook 
+	Book book;// åˆå§‹åŒ–ä¸€ä¸ªbook; 
+    errno_t err; // ä¸“é—¨ç”¨æ¥è®°å½•é”™è¯¯çš„å˜é‡ï¼Œæœ¬è´¨æ˜¯ä¸€ä¸ªint
     if ((err = fopen_s(&temp,".\\.library_temp.dat", "r+")) != 0) { // failed to open the file
-        printf("\t´íÎó£ºÎŞ·¨´ò¿ª.library_temp.dat£¬´íÎó´úÂë%d\n", err);
-        printf("\t³ÌĞòÍË³öÖĞ...\n");
+        printf("\té”™è¯¯ï¼šæ— æ³•æ‰“å¼€.library_temp.datï¼Œé”™è¯¯ä»£ç %d\n", err);
+        printf("\tç¨‹åºé€€å‡ºä¸­...\n");
         exit(0);
     }
-    printf("\tÏÖÓĞÈçÏÂÊéÄ¿\n");
+    printf("\tç°æœ‰å¦‚ä¸‹ä¹¦ç›®\n");
     listBook();
 	int i = 0,flag;
 	int n = countBook();
-	//Ñ­»·¼ÓÈëÊéÄ¿ 
-	//ÊäÈëĞèÒªÌí¼ÓµÄÊé±¾ĞÅÏ¢ 
-	printf("\tÇë°´Ë³ĞòÊäÈëÊéÃû,Êé¼®ÀàĞÍ,ÊéÄ¿ÊıÁ¿£º£¨ÖĞ¼ä¿Õ¸ñ¸ô¿ª£©\n");
+	//å¾ªç¯åŠ å…¥ä¹¦ç›® 
+	//è¾“å…¥éœ€è¦æ·»åŠ çš„ä¹¦æœ¬ä¿¡æ¯ 
+	printf("\tè¯·æŒ‰é¡ºåºè¾“å…¥ä¹¦å,ä¹¦ç±ç±»å‹,ä¹¦ç›®æ•°é‡ï¼šï¼ˆä¸­é—´ç©ºæ ¼éš”å¼€ï¼‰\n");
 	do
 	{
 		flag = 1;
@@ -28,7 +28,7 @@ void addBook()
 			fread(&book,sizeof(Book),1,temp);
 			if (strcmp(ibook.name,book.name) == 0)
 			{
-				printf("\t¸ÃÍ¼ÊéÒÑ¾­´æÔÚ,ÇëÖØĞÂÊäÈë:   ");
+				printf("\tè¯¥å›¾ä¹¦å·²ç»å­˜åœ¨,è¯·é‡æ–°è¾“å…¥:   ");
 				break;
 			}
 			else
@@ -37,19 +37,19 @@ void addBook()
 			} 
 		}
 	} while (flag == 1);
-	//½«ĞÂÊéÄ¿Ğ´Èë
+	//å°†æ–°ä¹¦ç›®å†™å…¥
 	if (fwrite(&ibook, sizeof(Book), 1, temp) != 1)
 	{
-		printf("\tÎŞ·¨±£´æ¸ÃĞÅÏ¢!\n");
+		printf("\tæ— æ³•ä¿å­˜è¯¥ä¿¡æ¯!\n");
 		return 0;
 	}
 	else
 	{
-		printf("\tĞÂÍ¼ÊéĞÅÏ¢ÒÑ¾­±£´æ!\n");
+		printf("\tæ–°å›¾ä¹¦ä¿¡æ¯å·²ç»ä¿å­˜!\n");
 		n++;
 	}
 	fclose(temp);
-	printf("\tÌí¼Ó¸ÃÍ¼ÊéĞÅÏ¢Ö´ĞĞÍê±Ï!\n");
+	printf("\tæ·»åŠ è¯¥å›¾ä¹¦ä¿¡æ¯æ‰§è¡Œå®Œæ¯•!\n");
 }
 void listBook()
 {
@@ -58,24 +58,24 @@ void listBook()
     if ((err = fopen_s(&fp, ".\\library.dat", "r+")) != 0) 
 	{ 
 		// failed to open the file
-        printf("\t´íÎó£ºÎŞ·¨´ò¿ªlibrary.dat£¬´íÎó´úÂë%d\n", err);
-        printf("\t³ÌĞòÍË³öÖĞ...\n");
+        printf("\té”™è¯¯ï¼šæ— æ³•æ‰“å¼€library.datï¼Œé”™è¯¯ä»£ç %d\n", err);
+        printf("\tç¨‹åºé€€å‡ºä¸­...\n");
         exit(0);
     }
     int i,number = 0,n;
     n = countBook();
-    char ch;//ÅĞ¶ÏÎÄ¼şÊÇ·ñÎª¿Õ 
+    char ch;//åˆ¤æ–­æ–‡ä»¶æ˜¯å¦ä¸ºç©º 
     Book book;
     ch = fgets(fp);
     if(n == 0)
 	{
-		printf("ÔİÊ±ÎŞÊéÄ¿¼ÇÂ¼£¬ÇëÏÈÌí¼ÓÊéÄ¿£¡"); 
+		printf("æš‚æ—¶æ— ä¹¦ç›®è®°å½•ï¼Œè¯·å…ˆæ·»åŠ ä¹¦ç›®ï¼"); 
 	} 
 	else
 	{
 		printf("\t|**********************************************************************|\n");
 		printf("\n\n");
-		printf("\t%-16s%-10s%-6d\n", "ÊéÃû", "ÀàĞÍ","ÊıÁ¿");
+		printf("\t%-16s%-10s%-6d\n", "ä¹¦å", "ç±»å‹","æ•°é‡");
 	   	for (int i = 0; i < n; i++) 
 		{
         	fread(&book, sizeof(Book), 1, fp);
@@ -96,8 +96,8 @@ int  countBook()
 	FILE *fp;
 	errno_t err;
     if ((err = fopen_s(&fp, ".\\library.dat", "r+")) != 0) { // failed to open the file
-        printf("\t´íÎó£ºÎŞ·¨´ò¿ªlibrary.dat£¬´íÎó´úÂë%d\n", err);
-        printf("\t³ÌĞòÍË³öÖĞ...\n");
+        printf("\té”™è¯¯ï¼šæ— æ³•æ‰“å¼€library.datï¼Œé”™è¯¯ä»£ç %d\n", err);
+        printf("\tç¨‹åºé€€å‡ºä¸­...\n");
         exit(0);
     }
 	while(!feof(fp))
@@ -108,6 +108,7 @@ int  countBook()
 	fclose(fp);
 	return record; 
 }
+
 void delBook() {
     // è¯¥å‡½æ•°è°ƒç”¨listBook()ï¼Œéšåæ¥æ”¶ç”¨æˆ·çš„åºå·æ¥åˆ é™¤ä¹¦ç›®
     FILE* fp, * temp;
