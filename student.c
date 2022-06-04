@@ -9,16 +9,23 @@
 #include "student.h"
 
 int countStu() {
-    // ¸Ãº¯Êı·µ»ØÑ§Éú×ÜÊı
-    errno = 0; // ÓÃÀ´¼ÇÂ¼ÎÄ¼ş´ò¿ª´íÎóĞÅÏ¢
+    // è¯¥å‡½æ•°è¿”å›å­¦ç”Ÿæ€»æ•°
+    errno = 0; // ç”¨æ¥è®°å½•æ–‡ä»¶æ‰“å¼€é”™è¯¯ä¿¡æ¯
     FILE* fp = fopen(".\\student.dat", "r+");
     if (!fp) {
-        return 0;
+        if (errno == 2) {
+            printf("\tæ²¡æœ‰student.datæ–‡ä»¶ï¼Œè¯·å…ˆåˆ›å»ºå­¦ç”Ÿ\n");
+            errno = 0; // é”™è¯¯æ¢å¤æ ‡å¿—
+            return 0;
+        }
+        printf("\té”™è¯¯ï¼šæ— æ³•æ‰“å¼€student.datï¼Œé”™è¯¯ä»£ç %dï¼š%s\n", errno, strerror(errno));
+        system("PAUSE");
+        exit(0);
     }
     Stu stu;
     int cnt = 0;
     fseek(fp, 0, SEEK_SET);
-    while (!feof(fp)) { // Î´¶Áµ½ÎÄÄ©
+    while (!feof(fp)) { // æœªè¯»åˆ°æ–‡æœ«
         fread(&stu, sizeof(Stu), 1, fp);
         cnt++;
     }
@@ -27,29 +34,39 @@ int countStu() {
 }
 
 void addStu(char* num) {
-    // ÔÚ"student.dat"ÖĞÒÔ×·¼ÓÄ£Ê½ĞÂ½¨ÒÔnumÎªÑ§ºÅµÄÑ§Éú
-    errno = 0; // ÓÃÀ´¼ÇÂ¼ÎÄ¼ş´ò¿ª´íÎóĞÅÏ¢
+    // åœ¨"student.dat"ä¸­ä»¥è¿½åŠ æ¨¡å¼æ–°å»ºä»¥numä¸ºå­¦å·çš„å­¦ç”Ÿ
+    errno = 0; // ç”¨æ¥è®°å½•æ–‡ä»¶æ‰“å¼€é”™è¯¯ä¿¡æ¯
     FILE* fp = fopen(".\\student.dat", "a+");
     if (!fp) {
-        printf("\t´íÎó£ºÎŞ·¨´ò¿ªstudent.dat£¬´íÎó´úÂë%d£º%s\n", errno, strerror(errno));
+        if (errno == 2) {
+            printf("\tæ²¡æœ‰student.datæ–‡ä»¶ï¼Œè¯·å…ˆåˆ›å»ºå­¦ç”Ÿ\n");
+            errno = 0; // é”™è¯¯æ¢å¤æ ‡å¿—
+            return;
+        }
+        printf("\té”™è¯¯ï¼šæ— æ³•æ‰“å¼€student.datï¼Œé”™è¯¯ä»£ç %dï¼š%s\n", errno, strerror(errno));
         system("PAUSE");
         exit(0);
     }
-    Stu stu; // ³õÊ¼»¯Ò»¸öÑ§Éú
+    Stu stu; // åˆå§‹åŒ–ä¸€ä¸ªå­¦ç”Ÿ
     stu.oweNum = stu.recNum = 0;
     strcpy(stu.num, num);
     fwrite(&stu, sizeof(Stu), 1, fp);
-    printf("\t³É¹¦Ìí¼ÓÑ§ºÅÎª%sÑ§Éú\n", stu.num);
+    printf("\tæˆåŠŸæ·»åŠ å­¦å·ä¸º%så­¦ç”Ÿ\n", stu.num);
     fclose(fp);
 }
 
 int searchStu(char* num) {
-    // ÔÚ"student.dat"ÖĞ²éÕÒÒÔnumÎªÑ§ºÅµÄÑ§Éú£¬·µ»ØÑ§ÉúµÄË³Î», ÈôÃ»ÓĞÕÒµ½Ôò·µ»Ø-1¡£
+    // åœ¨"student.dat"ä¸­æŸ¥æ‰¾ä»¥numä¸ºå­¦å·çš„å­¦ç”Ÿï¼Œè¿”å›å­¦ç”Ÿçš„é¡ºä½, è‹¥æ²¡æœ‰æ‰¾åˆ°åˆ™è¿”å›-1ã€‚
     int index = -1;
-    errno = 0; // ÓÃÀ´¼ÇÂ¼ÎÄ¼ş´ò¿ª´íÎóĞÅÏ¢
+    errno = 0; // ç”¨æ¥è®°å½•æ–‡ä»¶æ‰“å¼€é”™è¯¯ä¿¡æ¯
     FILE* fp = fopen(".\\student.dat", "r+");
     if (!fp) {
-        printf("\t´íÎó£ºÎŞ·¨´ò¿ªstudent.dat£¬´íÎó´úÂë%d£º%s\n", errno, strerror(errno));
+        if (errno == 2) {
+            printf("\tæ²¡æœ‰student.datæ–‡ä»¶ï¼Œè¯·å…ˆåˆ›å»ºå­¦ç”Ÿ\n");
+            errno = 0; // é”™è¯¯æ¢å¤æ ‡å¿—
+            return -1;
+        }
+        printf("\té”™è¯¯ï¼šæ— æ³•æ‰“å¼€student.datï¼Œé”™è¯¯ä»£ç %dï¼š%s\n", errno, strerror(errno));
         system("PAUSE");
         exit(0);
     }
@@ -58,61 +75,71 @@ int searchStu(char* num) {
     fseek(fp, 0, SEEK_SET);
     while (!feof(fp)) {
         fread(&stu, sizeof(Stu), 1, fp);
-        if (strcmp(num, stu.num) == 0) { // ÊäÈëÑ§ºÅºÍÑ§ÉúÑ§ºÅÒ»ÖÂ
+        if (strcmp(num, stu.num) == 0) { // è¾“å…¥å­¦å·å’Œå­¦ç”Ÿå­¦å·ä¸€è‡´
             index = i;
             break;
         }
         ++i;
     }
-    if (!feof(fp)) { // Î´¶Áµ½ÎÄÄ©
-        printf("\tÈí´íÎó£ºÎÄ¼şÎŞ·¨¶Áµ½ÎÄÄ©\n");
+    if (!feof(fp)) { // æœªè¯»åˆ°æ–‡æœ«
+        printf("\tè½¯é”™è¯¯ï¼šæ–‡ä»¶æ— æ³•è¯»åˆ°æ–‡æœ«\n");
     }
     fclose(fp);
     return index;
 }
 
 void showStu(char* num) {
-    // µ÷ÓÃsearchStu()º¯Êı, Êä³öÒÔnumÎªÑ§ºÅµÄÑ§ÉúµÄ½ü15Ìõ½èÔÄ¼ÇÂ¼
-    errno = 0; // ÓÃÀ´¼ÇÂ¼ÎÄ¼ş´ò¿ª´íÎóĞÅÏ¢
+    // è°ƒç”¨searchStu()å‡½æ•°, è¾“å‡ºä»¥numä¸ºå­¦å·çš„å­¦ç”Ÿçš„è¿‘15æ¡å€Ÿé˜…è®°å½•
+    errno = 0; // ç”¨æ¥è®°å½•æ–‡ä»¶æ‰“å¼€é”™è¯¯ä¿¡æ¯
     FILE* fp = fopen(".\\student.dat", "r+");
     if (!fp) {
-        printf("\t´íÎó£ºÎŞ·¨´ò¿ªstudent.dat£¬´íÎó´úÂë%d£º%s\n", errno, strerror(errno));
+        if (errno == 2) {
+            printf("\tæ²¡æœ‰student.datæ–‡ä»¶ï¼Œè¯·å…ˆåˆ›å»ºå­¦ç”Ÿ\n");
+            errno = 0; // é”™è¯¯æ¢å¤æ ‡å¿—
+            return;
+        }
+        printf("\té”™è¯¯ï¼šæ— æ³•æ‰“å¼€student.datï¼Œé”™è¯¯ä»£ç %dï¼š%s\n", errno, strerror(errno));
         system("PAUSE");
         exit(0);
     }
     Stu stu;
     int stuIndex = searchStu(num);
     if (stuIndex == -1) {
-        printf("\t´íÎó£ºÕÒ²»µ½Ñ§ºÅÎª%sµÄÑ§Éú\n", num);
-        printf("\t³ÌĞòÍË³öÖĞ...\n");
+        printf("\té”™è¯¯ï¼šæ‰¾ä¸åˆ°å­¦å·ä¸º%sçš„å­¦ç”Ÿ\n", num);
+        printf("\tç¨‹åºé€€å‡ºä¸­...\n");
         fclose(fp);
         return;
     }
     fseek(fp, stuIndex * sizeof(Stu), SEEK_SET);
     fread(&stu, sizeof(Stu), 1, fp);
-    Rec rec; // ¼ÇÂ¼
+    Rec rec; // è®°å½•
     for (int i = 0; i < stu.recNum; i++) {
         rec = stu.rec[i];
-        printf("\t %d | ¡¶%s¡· | %s | %s\n", i, \
-            rec.book.name, rec.time, (rec.borrow ? " ½è ³ö     ":"¹é»¹"));
+        printf("\t %d | ã€Š%sã€‹ | %s | %s\n", i, \
+            rec.book.name, rec.time, (rec.borrow ? " å€Ÿ å‡º       ":"å½’è¿˜"));
     }
 }
 
 void borrowBook(char* num) {
-    // ¸Ãº¯Êıµ÷ÓÃlibrary¿âÖĞµÄlistBook()º¯Êı£¬Ñ¯ÎÊÓÃ»§½èÔÄÊéÄ¿µÄĞòºÅ,ĞŞ¸Älibrary.datÓëstudent.dat
-    // ÏÈ¼ìÑéÑ§ÉúÊÇ·ñÄÜ½èÊé
-    errno = 0; // ÓÃÀ´¼ÇÂ¼ÎÄ¼ş´ò¿ª´íÎóĞÅÏ¢
+    // è¯¥å‡½æ•°è°ƒç”¨libraryåº“ä¸­çš„listBook()å‡½æ•°ï¼Œè¯¢é—®ç”¨æˆ·å€Ÿé˜…ä¹¦ç›®çš„åºå·,ä¿®æ”¹library.datä¸student.dat
+    // å…ˆæ£€éªŒå­¦ç”Ÿæ˜¯å¦èƒ½å€Ÿä¹¦
+    errno = 0; // ç”¨æ¥è®°å½•æ–‡ä»¶æ‰“å¼€é”™è¯¯ä¿¡æ¯
     FILE* libfp, * tempfp, * stufp;
     Stu stu;
     int stuIndex = searchStu(num);
     if (stuIndex == -1) {
-        printf("\t´íÎó£ºÎ´ÕÒµ½¸ÃÑ§Éú\n");
-        printf("\t³ÌĞò·µ»ØÖĞ...\n");
+        printf("\té”™è¯¯ï¼šæœªæ‰¾åˆ°è¯¥å­¦ç”Ÿ\n");
+        printf("\tç¨‹åºè¿”å›ä¸­...\n");
         return;
     }
     stufp = fopen(".\\student.dat", "r+");
     if (!stufp) {
-        printf("\t´íÎó£ºÎŞ·¨´ò¿ªstudent.dat£¬´íÎó´úÂë%d£º%s\n", errno, strerror(errno));
+        if (errno == 2) {
+            printf("\tæ²¡æœ‰student.datæ–‡ä»¶ï¼Œè¯·å…ˆåˆ›å»ºå­¦ç”Ÿ\n");
+            errno = 0; // é”™è¯¯æ¢å¤æ ‡å¿—
+            return;
+        }
+        printf("\té”™è¯¯ï¼šæ— æ³•æ‰“å¼€student.datï¼Œé”™è¯¯ä»£ç %dï¼š%s\n", errno, strerror(errno));
         system("PAUSE");
         exit(0);
     }
@@ -120,48 +147,58 @@ void borrowBook(char* num) {
     fread(&stu, sizeof(Stu), 1, stufp);
     fclose(stufp);
     if (stu.oweNum >= 5) {
-        // ¸ÃÑ§Éú²»¿ÉÒÔ½èÊé
-        printf("\t´íÎó£ºÄãµÄ½èÊéÊıÁ¿ÒÑ¾­´ïµ½×î´óÉÏÏŞ£¬ÈçĞè¼ÌĞøÇëÏÈ»¹Êé\n");
-        printf("\t³ÌĞò·µ»ØÖĞ...\n");
+        // è¯¥å­¦ç”Ÿä¸å¯ä»¥å€Ÿä¹¦
+        printf("\té”™è¯¯ï¼šä½ çš„å€Ÿä¹¦æ•°é‡å·²ç»è¾¾åˆ°æœ€å¤§ä¸Šé™ï¼Œå¦‚éœ€ç»§ç»­è¯·å…ˆè¿˜ä¹¦\n");
+        printf("\tç¨‹åºè¿”å›ä¸­...\n");
         return;
     }
-    // ¸ÃÑ§Éú¿ÉÒÔ½èÊé£¬ÁĞ³öÊé¼®£¬Ñ¯ÎÊÏë½èÔÄµÄÊé¼®
-    printf("\tÏÖÓĞÈçÏÂÊéÄ¿\n");
+    // è¯¥å­¦ç”Ÿå¯ä»¥å€Ÿä¹¦ï¼Œåˆ—å‡ºä¹¦ç±ï¼Œè¯¢é—®æƒ³å€Ÿé˜…çš„ä¹¦ç±
+    printf("\tç°æœ‰å¦‚ä¸‹ä¹¦ç›®\n");
     listBook();
-    printf("\tÇëÊäÈë½èÔÄµÄÊéÄ¿ĞòºÅ\n");
+    printf("\tè¯·è¾“å…¥å€Ÿé˜…çš„ä¹¦ç›®åºå·\n");
     int destination;
     scanf("%d", &destination);
     if (destination < 0 || destination >= countBook()) {
-        printf("\t´íÎó£ºÊäÈëÁË´íÎóµÄÊéÄ¿ĞòºÅ\n");
-        printf("\t³ÌĞò·µ»ØÖĞ\n");
+        printf("\té”™è¯¯ï¼šè¾“å…¥äº†é”™è¯¯çš„ä¹¦ç›®åºå·\n");
+        printf("\tç¨‹åºè¿”å›ä¸­\n");
         return;
     }
-    // ¼ì²â¸ÃÊé¼®ÊÇ·ñ»¹ÓĞ¿â´æ(¼´book.num > 0)
+    // æ£€æµ‹è¯¥ä¹¦ç±æ˜¯å¦è¿˜æœ‰åº“å­˜(å³book.num > 0)
     libfp = fopen(".\\library.dat", "r+");
     if (!libfp) {
-        printf("\t´íÎó£ºÎŞ·¨´ò¿ªlibrary.dat£¬´íÎó´úÂë%d£º%s\n", errno, strerror(errno));
+        if (errno == 2) {
+            printf("\tæ²¡æœ‰library.datæ–‡ä»¶ï¼Œè¯·å…ˆå½•å…¥ä¹¦ç±\n");
+            errno = 0; // é”™è¯¯æ¢å¤æ ‡å¿—
+            return;
+        }
+        printf("\té”™è¯¯ï¼šæ— æ³•æ‰“å¼€library.datï¼Œé”™è¯¯ä»£ç %dï¼š%s\n", errno, strerror(errno));
         system("PAUSE");
         exit(0);
     }
     fseek(libfp, destination * sizeof(Book), SEEK_SET);
-    Book book, bookFound; //bookÓÃÓÚ±éÀúlibrary.dat£¬bookFoundÓÃÓÚ¼ÇÂ¼µ½½èÔÄ¼ÇÂ¼ÖĞ
+    Book book, bookFound; //bookç”¨äºéå†library.datï¼ŒbookFoundç”¨äºè®°å½•åˆ°å€Ÿé˜…è®°å½•ä¸­
     fread(&bookFound, sizeof(Book), 1, libfp);
     fclose(libfp);
-    if (bookFound.num <= 0) { // bookFound.num ²»¿ÉÒÔ-1
-        printf("´íÎó£º¸ÃÊéÄ¿²»¿É½èÔÄ£¬ÒòÎªÆäÊıÁ¿Îª0");
-        printf("\t³ÌĞò·µ»ØÖĞ...\n");
+    if (bookFound.num <= 0) { // bookFound.num ä¸å¯ä»¥-1
+        printf("é”™è¯¯ï¼šè¯¥ä¹¦ç›®ä¸å¯å€Ÿé˜…ï¼Œå› ä¸ºå…¶æ•°é‡ä¸º0");
+        printf("\tç¨‹åºè¿”å›ä¸­...\n");
         return;
     }
-    // ÒÑ¾­Ñ¡ÔñÄ¿±êÊéÄ¿£¬½øÈëĞŞ¸Älibrary.dat½×¶Î£¬ÈÃËùÑ¡ÊéÄ¿ÊıÁ¿-1
+    // å·²ç»é€‰æ‹©ç›®æ ‡ä¹¦ç›®ï¼Œè¿›å…¥ä¿®æ”¹library.daté˜¶æ®µï¼Œè®©æ‰€é€‰ä¹¦ç›®æ•°é‡-1
     libfp = fopen(".\\library.dat", "r+");
     if (!libfp) {
-        printf("\t´íÎó£ºÎŞ·¨´ò¿ªlibrary.dat£¬´íÎó´úÂë%d£º%s\n", errno, strerror(errno));
+        if (errno == 2) {
+            printf("\tæ²¡æœ‰library.datæ–‡ä»¶ï¼Œè¯·å…ˆåˆ›å»ºå­¦ç”Ÿ\n");
+            errno = 0; // é”™è¯¯æ¢å¤æ ‡å¿—
+            return;
+        }
+        printf("\té”™è¯¯ï¼šæ— æ³•æ‰“å¼€library.datï¼Œé”™è¯¯ä»£ç %dï¼š%s\n", errno, strerror(errno));
         system("PAUSE");
         exit(0);
     }
     tempfp = fopen(".\\.library_temp.dat", "w+");
     if (!tempfp) {
-        printf("\t´íÎó£ºÎŞ·¨´ò¿ª.library_temp.dat£¬´íÎó´úÂë%d£º%s\n", errno, strerror(errno));
+        printf("\té”™è¯¯ï¼šæ— æ³•æ‰“å¼€.library_temp.datï¼Œé”™è¯¯ä»£ç %dï¼š%s\n", errno, strerror(errno));
         system("PAUSE");
         exit(0);
     }
@@ -171,7 +208,7 @@ void borrowBook(char* num) {
         fread(&book, sizeof(Book), 1, libfp);
         if (i == destination) {
             --bookFound.num;
-            stu.owe[stu.oweNum++] = bookFound; // ĞŞ¸ÄÄÚ´æÖĞµÄÑ§Éú£¬ÔÚoweÊı×éÖĞÌí¼Ó¸Ãbook
+            stu.owe[stu.oweNum++] = bookFound; // ä¿®æ”¹å†…å­˜ä¸­çš„å­¦ç”Ÿï¼Œåœ¨oweæ•°ç»„ä¸­æ·»åŠ è¯¥book
             fwrite(&bookFound, sizeof(Book), 1, tempfp);
         }
         else {
@@ -180,13 +217,13 @@ void borrowBook(char* num) {
     }
     remove(".\\library.dat");
     if (rename(".\\.library_tmp.dat", ".\\library.dat") != 0) {
-        printf("\t´íÎó£ºÎŞ·¨ĞŞ¸Ä.library_tmp.datÎªlibrary.dat\n");
-        printf("\t³ÌĞòÍË³öÖĞ...\n");
+        printf("\té”™è¯¯ï¼šæ— æ³•ä¿®æ”¹.library_tmp.datä¸ºlibrary.dat\n");
+        printf("\tç¨‹åºé€€å‡ºä¸­...\n");
         system("PAUSE");
         exit(0);
     }
     fclose(libfp), fclose(tempfp);
-    // ¹¹½¨¼ÇÂ¼rec£¬Ìí¼Ó½østuµÄ½è»¹±íÖĞ
+    // æ„å»ºè®°å½•recï¼Œæ·»åŠ è¿›stuçš„å€Ÿè¿˜è¡¨ä¸­
     time_t rawtime;
     time(&rawtime);
     // Rec rec = { bookFound, ctime(&rawtime), 1 };
@@ -196,22 +233,27 @@ void borrowBook(char* num) {
     strcpy(rec.time, ctime(&rawtime));
     stu.rec[stu.recNum++] = rec;
     while (stu.recNum >= 16) {
-        // ÈÃstu.recNumÊ¼ÖÕ±£³Ö15Ìõ
+        // è®©stu.recNumå§‹ç»ˆä¿æŒ15æ¡
         for (int i = 0; i < stu.recNum; ++i) {
             stu.rec[i] = stu.rec[i + 1];
         }
         --stu.recNum;
     }
-    // ĞŞ¸ÄÄÚ´æstuÍê³É£¬½øÈëĞŞ¸Ästudent.dat½×¶Î
+    // ä¿®æ”¹å†…å­˜stuå®Œæˆï¼Œè¿›å…¥ä¿®æ”¹student.daté˜¶æ®µ
     stufp = fopen(".\\student.dat", "r+");
     if (!stufp) {
-        printf("\t´íÎó£ºÎŞ·¨´ò¿ªstudent.dat£¬´íÎó´úÂë%d£º%s\n", errno, strerror(errno));
+        if (errno == 2) {
+            printf("\tæ²¡æœ‰student.datæ–‡ä»¶ï¼Œè¯·å…ˆåˆ›å»ºå­¦ç”Ÿ\n");
+            errno = 0; // é”™è¯¯æ¢å¤æ ‡å¿—
+            return;
+        }
+        printf("\té”™è¯¯ï¼šæ— æ³•æ‰“å¼€student.datï¼Œé”™è¯¯ä»£ç %dï¼š%s\n", errno, strerror(errno));
         system("PAUSE");
         exit(0);
     }
     tempfp = fopen(".\\.student_temp.dat", "w+");
     if (!tempfp) {
-        printf("\t´íÎó£ºÎŞ·¨´ò¿ª.student_temp.dat£¬´íÎó´úÂë%d£º%s\n", errno, strerror(errno));
+        printf("\té”™è¯¯ï¼šæ— æ³•æ‰“å¼€.student_temp.datï¼Œé”™è¯¯ä»£ç %dï¼š%s\n", errno, strerror(errno));
         system("PAUSE");
         exit(0);
     }
@@ -222,37 +264,42 @@ void borrowBook(char* num) {
         fread(&stutemp, sizeof(Stu), 1, stufp);
         if (i == stuIndex)
             fwrite(&stu, sizeof(Stu), 1, tempfp);
-        //ÒòÎªĞ´ÈëlibraryÊ±ÒÑ¾­ĞŞ¸Ä¹ıÁË½è»¹±í£¬ËùÒÔÏÖÔÚÖ±½ÓĞ´Èë
+        //å› ä¸ºå†™å…¥libraryæ—¶å·²ç»ä¿®æ”¹è¿‡äº†å€Ÿè¿˜è¡¨ï¼Œæ‰€ä»¥ç°åœ¨ç›´æ¥å†™å…¥
         else
             fwrite(&stutemp, sizeof(Stu), 1, tempfp);
     }
     remove(".\\student.dat");
     if (rename(".\\.student_tmp.dat", ".\\student.dat") == 0) {
-        // ÖØÃüÃû³É¹¦
-        printf("\t³É¹¦½èÔÄÊé±¾£º%s\n", bookFound.name);
+        // é‡å‘½åæˆåŠŸ
+        printf("\tæˆåŠŸå€Ÿé˜…ä¹¦æœ¬ï¼š%s\n", bookFound.name);
     }
     else {
-        printf("\t´íÎó£ºÎŞ·¨ĞŞ¸Ä.library_tmp.datÎªlibrary.dat\n");
-        printf("\t³ÌĞòÍË³öÖĞ...\n");
+        printf("\té”™è¯¯ï¼šæ— æ³•ä¿®æ”¹.library_tmp.datä¸ºlibrary.dat\n");
+        printf("\tç¨‹åºé€€å‡ºä¸­...\n");
         system("PAUSE");
         exit(0);
     }
 }
 
 void returnBook(char* num) {
-    // ¸Ãº¯Êı»áÊä³öÒÔnumÎªÑ§ºÅÎ´¹é»¹µÄÊé¼®£¬ÈÃÑ§ÉúÑ¡ÔñÑ¡Ïî¹é»¹
-    errno = 0; // ÓÃÀ´¼ÇÂ¼ÎÄ¼ş´ò¿ª´íÎóĞÅÏ¢
+    // è¯¥å‡½æ•°ä¼šè¾“å‡ºä»¥numä¸ºå­¦å·æœªå½’è¿˜çš„ä¹¦ç±ï¼Œè®©å­¦ç”Ÿé€‰æ‹©é€‰é¡¹å½’è¿˜
+    errno = 0; // ç”¨æ¥è®°å½•æ–‡ä»¶æ‰“å¼€é”™è¯¯ä¿¡æ¯
     FILE* stufp, * tempfp, * libfp;
     Stu stu;
     int stuIndex = searchStu(num);
     if (stuIndex == -1) {
-        printf("\t´íÎó£ºÎ´ÕÒµ½¸ÃÑ§Éú\n");
-        printf("\t³ÌĞò·µ»ØÖĞ...\n");
+        printf("\té”™è¯¯ï¼šæœªæ‰¾åˆ°è¯¥å­¦ç”Ÿ\n");
+        printf("\tç¨‹åºè¿”å›ä¸­...\n");
         return;
     }
     stufp = fopen(".\\student.dat", "r+");
     if (!stufp) {
-        printf("\t´íÎó£ºÎŞ·¨´ò¿ªstudent.dat£¬´íÎó´úÂë%d£º%s\n", errno, strerror(errno));
+        if (errno == 2) {
+            printf("\tæ²¡æœ‰student.datæ–‡ä»¶ï¼Œè¯·å…ˆåˆ›å»ºå­¦ç”Ÿ\n");
+            errno = 0; // é”™è¯¯æ¢å¤æ ‡å¿—
+            return;
+        }
+        printf("\té”™è¯¯ï¼šæ— æ³•æ‰“å¼€student.datï¼Œé”™è¯¯ä»£ç %dï¼š%s\n", errno, strerror(errno));
         system("PAUSE");
         exit(0);
     }
@@ -260,45 +307,50 @@ void returnBook(char* num) {
     fread(&stu, sizeof(Stu), 1, stufp);
     fclose(stufp);
     if (stu.oweNum == 0) {
-        // ¸ÃÑ§Éú²»¿ÉÒÔ½èÊé
-        printf("\t´íÎó£ºÄãµÄ½èÔÄÁĞ±íÎª¿Õ£¬ÈçĞè¼ÌĞøÇëÏÈ½èÊé\n");
-        printf("\t³ÌĞò·µ»ØÖĞ...\n");
+        // è¯¥å­¦ç”Ÿä¸å¯ä»¥å€Ÿä¹¦
+        printf("\té”™è¯¯ï¼šä½ çš„å€Ÿé˜…åˆ—è¡¨ä¸ºç©ºï¼Œå¦‚éœ€ç»§ç»­è¯·å…ˆå€Ÿä¹¦\n");
+        printf("\tç¨‹åºè¿”å›ä¸­...\n");
         return;
     }
-    // ¸ÃÑ§Éú¿ÉÒÔ»¹Êé£¬½øÈëĞŞ¸ÄÑ§ÉúÎ´»¹ÊéÄ¿½×¶Î
-    printf("\tÈçÏÂÊéÄ¿ÉĞÎ´¹é»¹\n");
+    // è¯¥å­¦ç”Ÿå¯ä»¥è¿˜ä¹¦ï¼Œè¿›å…¥ä¿®æ”¹å­¦ç”Ÿæœªè¿˜ä¹¦ç›®é˜¶æ®µ
+    printf("\tå¦‚ä¸‹ä¹¦ç›®å°šæœªå½’è¿˜\n");
     for (int i = 0; i < stu.oweNum; i++) {
-        printf("\t %d | ¡¶%s¡·\n", i, stu.owe[i].name);
+        printf("\t %d | ã€Š%sã€‹\n", i, stu.owe[i].name);
     }
-    printf("\tÇëÊäÈë¹é»¹µÄÊéÄ¿ĞòºÅ\n");
+    printf("\tè¯·è¾“å…¥å½’è¿˜çš„ä¹¦ç›®åºå·\n");
     int destination;
     scanf("%d", &destination);
-    // ¼ìÑédestinationÊÇ·ñºÏ·¨
+    // æ£€éªŒdestinationæ˜¯å¦åˆæ³•
     if (destination < 0 || destination >= stu.oweNum) {
-        printf("\t´íÎó£ºÊäÈëµÄ¹é»¹ÊéÄ¿ĞòºÅ²»ºÏ·¨\n");
-        printf("\t³ÌĞòÍË³öÖĞ...\n");
+        printf("\té”™è¯¯ï¼šè¾“å…¥çš„å½’è¿˜ä¹¦ç›®åºå·ä¸åˆæ³•\n");
+        printf("\tç¨‹åºé€€å‡ºä¸­...\n");
         return;
     }
     for (int i = destination; i < stu.oweNum - 1; i++) {
         stu.owe[i] = stu.owe[i + 1];
     }
     stu.oweNum--;
-    // ĞŞ¸Älibrary.dat, ½«´ËÊé¼®Êı+1
+    // ä¿®æ”¹library.dat, å°†æ­¤ä¹¦ç±æ•°+1
     libfp = fopen(".\\library.dat", "r+");
     if (!libfp) {
-        printf("\t´íÎó£ºÎŞ·¨´ò¿ªlibrary.dat£¬´íÎó´úÂë%d£º%s\n", errno, strerror(errno));
+        if (errno == 2) {
+            printf("\tæ²¡æœ‰library.datæ–‡ä»¶ï¼Œè¯·å…ˆåˆ›å»ºå­¦ç”Ÿ\n");
+            errno = 0; // é”™è¯¯æ¢å¤æ ‡å¿—
+            return;
+        }
+        printf("\té”™è¯¯ï¼šæ— æ³•æ‰“å¼€library.datï¼Œé”™è¯¯ä»£ç %dï¼š%s\n", errno, strerror(errno));
         system("PAUSE");
         exit(0);
     }
     tempfp = fopen(".\\.library_temp.dat", "w+");
     if (!tempfp) {
-        printf("\t´íÎó£ºÎŞ·¨´ò¿ª.library_temp.dat£¬´íÎó´úÂë%d£º%s\n", errno, strerror(errno));
+        printf("\té”™è¯¯ï¼šæ— æ³•æ‰“å¼€.library_temp.datï¼Œé”™è¯¯ä»£ç %dï¼š%s\n", errno, strerror(errno));
         system("PAUSE");
         exit(0);
     }
     fseek(libfp, 0, SEEK_SET), fseek(tempfp, 0, SEEK_SET);
     int n = countBook();
-    Book book, bookFound; //bookÓÃÓÚ±éÀúlibrary.dat£¬bookFoundÓÃÓÚ¼ÇÂ¼µ½½èÔÄ¼ÇÂ¼ÖĞ
+    Book book, bookFound; //bookç”¨äºéå†library.datï¼ŒbookFoundç”¨äºè®°å½•åˆ°å€Ÿé˜…è®°å½•ä¸­
     for (int i = 0; i < n; ++i) {
         fread(&book, sizeof(Book), 1, libfp);
         if (i == destination) {
@@ -309,13 +361,13 @@ void returnBook(char* num) {
     }
     remove(".\\library.dat");
     if (rename(".\\.library_tmp.dat", ".\\library.dat") != 0) {
-        printf("\t´íÎó£ºÎŞ·¨ĞŞ¸Ä.library_tmp.datÎªlibrary.dat\n");
-        printf("\t³ÌĞòÍË³öÖĞ...\n");
+        printf("\té”™è¯¯ï¼šæ— æ³•ä¿®æ”¹.library_tmp.datä¸ºlibrary.dat\n");
+        printf("\tç¨‹åºé€€å‡ºä¸­...\n");
         system("PAUSE");
         exit(0);
     }
     fclose(libfp), fclose(tempfp);
-    // ¹¹½¨¼ÇÂ¼£¬Ìí¼Ó½østu
+    // æ„å»ºè®°å½•ï¼Œæ·»åŠ è¿›stu
     time_t rawtime;
     time(&rawtime);
     // Rec rec = { bookFound, ctime(&rawtime), 1 };
@@ -325,22 +377,27 @@ void returnBook(char* num) {
     strcpy(rec.time, ctime(&rawtime));
     stu.rec[stu.recNum++] = rec;
     while (stu.recNum >= 16) {
-        // ÈÃstu.recNumÊ¼ÖÕ±£³Ö15Ìõ
+        // è®©stu.recNumå§‹ç»ˆä¿æŒ15æ¡
         for (int i = 0; i < stu.recNum; ++i) {
             stu.rec[i] = stu.rec[i + 1];
         }
         --stu.recNum;
     }
-    // ĞŞ¸ÄÍê³É£¬½øÈëĞŞ¸Ästudent.dat½×¶Î
+    // ä¿®æ”¹å®Œæˆï¼Œè¿›å…¥ä¿®æ”¹student.daté˜¶æ®µ
     stufp = fopen(".\\student.dat", "r+");
     if (!stufp) {
-        printf("\t´íÎó£ºÎŞ·¨´ò¿ªstudent.dat£¬´íÎó´úÂë%d£º%s\n", errno, strerror(errno));
+        if (errno == 2) {
+            printf("\tæ²¡æœ‰student.datæ–‡ä»¶ï¼Œè¯·å…ˆåˆ›å»ºå­¦ç”Ÿ\n");
+            errno = 0; // é”™è¯¯æ¢å¤æ ‡å¿—
+            return;
+        }
+        printf("\té”™è¯¯ï¼šæ— æ³•æ‰“å¼€student.datï¼Œé”™è¯¯ä»£ç %dï¼š%s\n", errno, strerror(errno));
         system("PAUSE");
         exit(0);
     }
     tempfp = fopen(".\\.student_temp.dat", "w+");
     if (!tempfp) {
-        printf("\t´íÎó£ºÎŞ·¨´ò¿ª.student_temp.dat£¬´íÎó´úÂë%d£º%s\n", errno, strerror(errno));
+        printf("\té”™è¯¯ï¼šæ— æ³•æ‰“å¼€.student_temp.datï¼Œé”™è¯¯ä»£ç %dï¼š%s\n", errno, strerror(errno));
         system("PAUSE");
         exit(0);
     }
@@ -356,12 +413,12 @@ void returnBook(char* num) {
     fclose(stufp), fclose(tempfp);
     remove(".\\student.dat");
     if (rename(".\\.student_tmp.dat", ".\\student.dat") == 0) {
-        // ÖØÃüÃû³É¹¦
-        printf("\t³É¹¦¹é»¹Êé±¾£º%s\n", bookFound.name);
+        // é‡å‘½åæˆåŠŸ
+        printf("\tæˆåŠŸå½’è¿˜ä¹¦æœ¬ï¼š%s\n", bookFound.name);
     }
     else {
-        printf("\t´íÎó£ºÎŞ·¨ĞŞ¸Ä.library_tmp.datÎªlibrary.dat\n");
-        printf("\t³ÌĞòÍË³öÖĞ...\n");
+        printf("\té”™è¯¯ï¼šæ— æ³•ä¿®æ”¹.library_tmp.datä¸ºlibrary.dat\n");
+        printf("\tç¨‹åºé€€å‡ºä¸­...\n");
         system("PAUSE");
         exit(0);
     }
