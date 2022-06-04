@@ -113,6 +113,7 @@ void adminMenu() {
 功能3：验证密码完成之后才打印菜单，菜单中包含对书籍信息的增删查改选项。
 */
 
+
 void stuMenu() {
     printf("\t输入学号以继续\n\t");
     char num[128];

@@ -9,7 +9,7 @@
 
 int countStu() {
     // 该函数返回学生总数
-    errno_t err; // 用来记录文件打开错误信息
+    errno err; // 用来记录文件打开错误信息
     FILE* fp;
     if ((err = fopen_s(&fp, ".\\student.dat", "r+")) != 0) { // failed to open the file
         printf("\t错误：无法打开student.dat，错误代码%d\n", err);
@@ -29,7 +29,7 @@ int countStu() {
 
 void addStu(char* num) {
     // 在"student.dat"中以追加模式新建以num为学号的学生
-    errno_t err; // 用来记录文件打开错误信息
+    errno err; // 用来记录文件打开错误信息
     FILE* fp;
     if ((err = fopen_s(&fp, ".\\student.dat", "a+")) != 0) { // failed to open the file
         printf("\t错误：无法打开student.dat，错误代码%d\n", err);
@@ -47,7 +47,7 @@ void addStu(char* num) {
 int searchStu(char* num) {
     // 在"student.dat"中查找以num为学号的学生，返回学生的顺位, 若没有找到则返回-1。
     int index = -1;
-    errno_t err; // 用来记录文件打开错误信息
+    errno err; // 用来记录文件打开错误信息
     FILE* fp;
     if ((err = fopen_s(&fp, ".\\student.dat", "r+")) != 0) { // failed to open the file
         printf("\t错误：无法打开student.dat，错误代码%d\n", err);
@@ -74,7 +74,7 @@ int searchStu(char* num) {
 
 void showStu(char* num) {
     // 调用searchStu()函数, 输出以num为学号的学生的近15条借阅记录
-    errno_t err; // 用来记录文件打开错误信息
+    errno err; // 用来记录文件打开错误信息
     FILE* fp;
     if ((err = fopen_s(&fp, ".\\student.dat", "r+")) != 0) { // failed to open the file
         printf("\t错误：无法打开student.dat，错误代码%d\n", err);
@@ -94,14 +94,14 @@ void showStu(char* num) {
     Rec rec; // 记录
     for (int i = 0; i < stu.recNum; i++) {
         rec = stu.rec[i];
-        printf("\t %d | 《%s》 | %s | %s\n", i, rec.book.name, rec.time, rec.borrow ?  "     借出":"归还");
+        printf("\t %d | 《%s》 | %s | %s\n", i, rec.book.name, rec.time, rec.borro ?  "       借出":"归还");
     }
 }
 
 void borrowBook(char* num) {
     // 该函数调用library库中的listBook()函数，询问用户借阅书目的序号,修改library.dat与student.dat
     // 先检验学生是否能借书
-    errno_t err; // 用来记录文件打开错误信息
+    errno err; // 用来记录文件打开错误信息
     FILE* stufp;
     Stu stu;
     int stuIndex = searchStu(num);
@@ -230,7 +230,7 @@ void borrowBook(char* num) {
 
 void returnBook(char* num) {
     // 该函数会输出以num为学号未归还的书籍，让学生选择选项归还
-    errno_t err; // 用来记录文件打开错误信息
+    errno err; // 用来记录文件打开错误信息
     FILE* stufp;
     Stu stu;
     int stuIndex = searchStu(num);
