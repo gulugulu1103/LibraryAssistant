@@ -1,7 +1,7 @@
 #include <stdlib.h>
 #include <stdio.h>
 #include <errno.h>
-#include <string.H>
+#include <string.h>
 #include "class.h"
 
 void addBook()
