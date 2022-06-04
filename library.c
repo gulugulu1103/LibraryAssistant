@@ -1,6 +1,6 @@
 #include <stdlib.h>
 #include <stdio.h>
-#include <corecrt.h>
+#include <errno.h>
 #include "class.h"
 void addBook()
 {
