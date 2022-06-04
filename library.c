@@ -220,10 +220,12 @@ void editBook() {
         return;
     }
     Book edited;
-    printf("\t请输入书目名称：\n");
+    printf("\t请输入书目名称：\n\t");
     scanf("%s", edited.name);
-    printf("\t请输入书目类型：\n");
+    printf("\t请输入书目类型：\n\t");
     scanf("%s", edited.type);
+    printf("\t请输入书目数量：\n\t");
+    scanf("%d", &edited.num);
     fseek(fp, 0, SEEK_SET), fseek(temp, 0, SEEK_SET);
     Book book;
     for (int i = 0; i < n; i++) {
@@ -235,7 +237,7 @@ void editBook() {
     remove(".\\library.dat");
     if (rename(".\\.library_temp.dat", ".\\library.dat") == 0) {
         // 重命名成功
-        printf("\t成功修改书名为：%s\n", edited.name);
+        printf("\t成功修改书名为：%s | 类型： %s | 数量：%d\n", edited.name, edited.type, edited.num);
     }
     else {
         printf("\t错误：无法修改.library_temp.dat为library.dat\n");
