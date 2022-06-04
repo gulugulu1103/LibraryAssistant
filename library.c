@@ -8,7 +8,7 @@ void addBook()
 	Book ibook;//用以添加额外书籍的变量ibook 
 	Book book;// 初始化一个book; 
     errno_t err; // 专门用来记录错误的变量，本质是一个int
-    if ((err = fopen_s(&temp,".\\.library_temp.dat", "a+")) != 0) { // failed to open the file
+    if ((err = fopen_s(&temp,".\\.library_temp.dat", "r+")) != 0) { // failed to open the file
         printf("\t错误：无法打开.library_temp.dat，错误代码%d\n", err);
         printf("\t程序退出中...\n");
         exit(0);
