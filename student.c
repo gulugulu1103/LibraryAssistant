@@ -16,11 +16,10 @@ int countStu() {
     }
     Stu stu;
     int cnt = 0;
-    while (fread(&stu, sizeof(Stu), 1, fp) != EOF) {
+    fseek(fp, 0, SEEK_SET);
+    while (!feof(fp)) { // 未读到文末
+        fread(&stu, sizeof(Stu), 1, fp);
         cnt++;
-    }
-    if (!feof(fp)) { // 未读到文末
-        printf("\t软错误：文件无法读到文末\n");
     }
     fclose(fp);
     return cnt;
@@ -53,10 +52,11 @@ int searchStu(char* num) {
         printf("\t程序退出中...\n");
         exit(0);
     }
-    fseek(fp, 0, SEEK_SET);
     Stu stu;
     int i = 0;
-    while (fread(&stu, sizeof(Stu), 1, fp) != EOF) {
+    fseek(fp, 0, SEEK_SET);
+    while (!feof(fp)) {
+        fread(&stu, sizeof(Stu), 1, fp);
         if (strcmp(num, stu.num) == 0) { // 输入学号和学生学号一致
             index = i;
             break;
@@ -92,7 +92,7 @@ void showStu(char* num) {
     Rec rec; // 记录
     for (int i = 0; i < stu.recNum; i++) {
         rec = stu.rec[i];
-        printf("\t %d | 《%s》 | %s | %s\n", i, rec.book.name, rec.time, rec.borrow ?  "   借出":"归还");
+        printf("\t %d | 《%s》 | %s | %s\n", i, rec.book.name, rec.time, rec.borrow ?  "     借出":"归还");
     }
 }
 
@@ -210,7 +210,7 @@ void borrowBook(char* num) {
         fread(&stutemp, sizeof(Stu), 1, stufp);
         if (i == stuIndex)
             fwrite(&stu, sizeof(Stu), 1, tempfp);
-            //因为写入library时已经修改过了借还表，所以现在直接写入
+        //因为写入library时已经修改过了借还表，所以现在直接写入
         else
             fwrite(&stutemp, sizeof(Stu), 1, tempfp);
     }
