@@ -19,37 +19,6 @@ int numCheck(char* str) {
 */
 
 
-//菜单宏，用户友好为宗旨，提示信息必须要有，界面用户友好
-void mainMenu() {
-    int choice;
-    printf("----------------------------------------------------------------");
-    printf("\t\t程序设计与实践\t期末大作业\n");
-    printf("\t\t欢迎光临图书管理系统\t\t\t本馆现有藏书%d本\n", countBook());
-    printf("\t1.以学生身份继续\n");
-    printf("\t2.以管理员身份继续\n");
-    printf("\t0.退出系统\n");
-    printf("\n\t请输入您的选择：\n\t");
-    scanf("%d", &choice);
-    switch (choice) {
-    case 0:
-        printf("\t感谢您的光临\n");
-        exit(0);
-    case 1:
-        stuMenu();
-        break;
-    case 2:
-        adminMenu();
-        break;
-    default:
-        printf("\t错误：暂无编号为%d的菜单，请重试\n", choice);
-    }
-}
-// 该函数打印一个主菜单
-/*
-主菜单是我们程序的主入口，是一个大菜单包含了管理员入口和学生入口。
-功能1：显示各种菜单选项；
-功能2：主菜单右上角可显示馆藏书籍的数量。
-*/
 
 void adminMenu() {
     printf("\t输入管理员密码以继续\n\t");
@@ -154,4 +123,36 @@ void stuMenu() {
 功能1：显示各种菜单选项
 功能2：需要用户输入学号，调用numCheck()函数检验学号是否合法，如果不合法则返回-1;
 功能3：学号合法之后才打印菜单，菜单中包含该学生对借还表的查询，增加（即借还）功能。(弄不来了）
+*/
+
+//菜单，用户友好为宗旨，提示信息必须要有，界面用户友好
+void mainMenu() {
+    int choice;
+    printf("----------------------------------------------------------------");
+    printf("\t\t程序设计与实践\t期末大作业\n");
+    printf("\t\t欢迎光临图书管理系统\t\t\t本馆现有藏书%d本\n", countBook());
+    printf("\t1.以学生身份继续\n");
+    printf("\t2.以管理员身份继续\n");
+    printf("\t0.退出系统\n");
+    printf("\n\t请输入您的选择：\n\t");
+    scanf("%d", &choice);
+    switch (choice) {
+    case 0:
+        printf("\t感谢您的光临\n");
+        exit(0);
+    case 1:
+        stuMenu();
+        break;
+    case 2:
+        adminMenu();
+        break;
+    default:
+        printf("\t错误：暂无编号为%d的菜单，请重试\n", choice);
+    }
+}
+// 该函数打印一个主菜单
+/*
+主菜单是我们程序的主入口，是一个大菜单包含了管理员入口和学生入口。
+功能1：显示各种菜单选项；
+功能2：主菜单右上角可显示馆藏书籍的数量。
 */

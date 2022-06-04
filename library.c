@@ -4,6 +4,60 @@
 #include <string.h>
 #include "class.h"
 
+int countBook()
+{
+    int record = 0;
+    Book book;
+    errno = 0;
+    FILE* fp = fopen(".\\library.dat", "r+");
+    if (!fp) {
+        printf("\t错误：无法打开library.dat，错误代码%d：%s\n", errno, strerror(errno));
+        exit(0);
+    }
+    while (!feof(fp))
+    {
+        fread(&book, sizeof(Book), 1, fp);
+        record++;
+    }
+    fclose(fp);
+    return record;
+}
+
+void listBook()
+{
+    errno = 0;
+    FILE* fp = fopen(".\\library.dat", "r+");
+    if (!fp) {
+        printf("\t错误：无法打开library.dat，错误代码%d：%s\n", errno, strerror(errno));
+        exit(0);
+    }
+    int i, number = 0, n;
+    n = countBook();
+    Book book;
+    if (n == 0)
+    {
+        printf("暂时无书目记，请先添加书目！"); 
+    }
+    else
+    {
+        printf("\t|**********************************************************************|\n");
+        printf("\n\n");
+        printf("\t%-16s%-10s%-6d\n", "书名", "  类型","数量");
+        for (int i = 0; i < n; i++)
+        {
+            fread(&book, sizeof(Book), 1, fp);
+            printf("\t%d%-16s%-10s%-6d\n", number, book.name, book.type, book.num);
+            number++;
+        }
+        printf("\n\n");
+        printf("\t|**********************************************************************|\n");
+        printf("\n\n");
+    }
+    fclose(fp);
+    return;
+}
+
+
 void addBook()
 {
     Book ibook;//用以添加额外书籍的变量ibook 
@@ -11,7 +65,7 @@ void addBook()
     errno = 0; // 专门用来记录错误的变量，本质是一个int
     FILE* temp = fopen(".\\.library_temp.dat", "r+");
     if (!temp) {
-        printf("\t错误：无法打开.library_temp.dat，错误代码%d：%s\n", errno, strerrno(errno));
+        printf("\t错误：无法打开.library_temp.dat，错误代码%d：%s\n", errno, strerror(errno));
         exit(0);
     }
     printf("\t现有如下书目\n");
@@ -43,7 +97,7 @@ void addBook()
     if (fwrite(&ibook, sizeof(Book), 1, temp) != 1)
     {
         printf("\t无法保存该信息!\n");
-        return 0;
+        return;
     }
     else
     {
@@ -54,71 +108,18 @@ void addBook()
     printf("\t添加该图书信息执行完毕!\n");
 }
 
-void listBook()
-{
-    errno = 0;
-    FILE* fp = fopen(".\\library.dat", "r+");
-    if (!fp) {
-        printf("\t错误：无法打开library.dat，错误代码%d：%s\n", errno, strerrno(errno));
-        exit(0);
-    }
-    int i, number = 0, n;
-    n = countBook();
-    Book book;
-    if (n == 0)
-    {
-        printf("暂时无书目记，请先添加书目！"); 
-    }
-    else
-    {
-        printf("\t|**********************************************************************|\n");
-        printf("\n\n");
-        printf("\t%-16s%-10s%-6d\n", "书名", " 类型","数量");
-        for (int i = 0; i < n; i++)
-        {
-            fread(&book, sizeof(Book), 1, fp);
-            printf("\t%d%-16s%-10s%-6d\n", number, book.name, book.type, book.num);
-            number++;
-        }
-        printf("\n\n");
-        printf("\t|**********************************************************************|\n");
-        printf("\n\n");
-    }
-    fclose(fp);
-    return 0;
-}
-
-int  countBook()
-{
-    int record = 0;
-    Book book;
-    errno = 0;
-    FILE* fp = fopen(".\\library.dat", "r+");
-    if (!fp) {
-        printf("\t错误：无法打开library.dat，错误代码%d：%s\n", errno, strerrno(errno));
-        exit(0);
-    }
-    while (!feof(fp))
-    {
-        fread(&book, sizeof(Book), 1, fp);
-        record++;
-    }
-    fclose(fp);
-    return record;
-}
-
 void delBook() {
     // 该函数调用listBook()，随后接收用户的序号来删除书目
     FILE* fp, * temp;
     errno = 0;
     fp = fopen(".\\library.dat", "r+");
     if (!fp) {
-        printf("\t错误：无法打开library.dat，错误代码%d：%s\n", errno, strerrno(errno));
+        printf("\t错误：无法打开library.dat，错误代码%d：%s\n", errno, strerror(errno));
         exit(0);
     }
     temp = fopen(".\\.library_temp.dat", "w+");
     if (!temp) {
-        printf("\t错误：无法打开.library_temp.dat，错误代码%d：%s\n", errno, strerrno(errno));
+        printf("\t错误：无法打开.library_temp.dat，错误代码%d：%s\n", errno, strerror(errno));
         exit(0);
     }
     printf("\t现有如下书目\n");
@@ -158,12 +159,12 @@ void editBook() {
     errno = 0;
     fp = fopen(".\\library.dat", "r+");
     if (!fp) {
-        printf("\t错误：无法打开library.dat，错误代码%d：%s\n", errno, strerrno(errno));
+        printf("\t错误：无法打开library.dat，错误代码%d：%s\n", errno, strerror(errno));
         exit(0);
     }
     temp = fopen(".\\.library_temp.dat", "w+");
     if (!temp) {
-        printf("\t错误：无法打开.library_temp.dat，错误代码%d：%s\n", errno, strerrno(errno));
+        printf("\t错误：无法打开.library_temp.dat，错误代码%d：%s\n", errno, strerror(errno));
         exit(0);
     }
     printf("\t现有如下书目\n");
