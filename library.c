@@ -22,7 +22,7 @@ void addBook()
 	do
 	{
 		flag = 1;
-		scanf("%s %s %d", &ibook.name, &ibook.type, %ibook.num);
+		scanf("%s %s %d", &ibook.name, &ibook.type, &ibook.num);
 		for (i = 0;i < n;i++)
 		{
 			fread(&book,sizeof(Book),1,temp);
@@ -64,9 +64,7 @@ void listBook()
     }
     int i,number = 0,n;
     n = countBook();
-    char ch;//判断文件是否为空 
     Book book;
-    ch = fgets(fp);
     if(n == 0)
 	{
 		printf("暂时无书目记录，请先添加书目！"); 
