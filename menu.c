@@ -133,7 +133,8 @@ void mainMenu() {
     printf("\t1.以学生身份继续\n");
     printf("\t2.以管理员身份继续\n");
     printf("\t0.退出系统\n");
-    printf("\n\t请输入您的选择：\n\t");
+    printf("\n\t请输入您的选择：\n");
+    printf("\t");
     scanf("%d", &choice);
     switch (choice) {
     case 0:

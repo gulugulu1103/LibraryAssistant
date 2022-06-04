@@ -25,22 +25,23 @@ int countBook()
 
 void listBook()
 {
-    errno = 0;
-    FILE* fp = fopen(".\\library.dat", "r+");
-    if (!fp) {
-        printf("\t错误：无法打开library.dat，错误代码%d：%s\n", errno, strerror(errno));
-        system("PAUSE");
-        exit(0);
-    }
     int i, number = 0, n;
     n = countBook();
     Book book;
     if (n == 0)
     {
-        printf("暂时无书目记，请先添加书目！"); 
+        printf("暂无书目，请先添加书目！"); 
+        return;
     }
     else
     {
+        errno = 0;
+        FILE* fp = fopen(".\\library.dat", "r+");
+        if (!fp) {
+            printf("\t错误：无法打开library.dat，错误代码%d：%s\n\t", errno, strerror(errno));
+            system("PAUSE");
+            exit(0);
+        }
         printf("\t|**********************************************************************|\n");
         printf("\n\n");
         printf("\t%-16s%-10s%-6d\n", "书名", "     类型","数量");
@@ -53,8 +54,8 @@ void listBook()
         printf("\n\n");
         printf("\t|**********************************************************************|\n");
         printf("\n\n");
+        fclose(fp);
     }
-    fclose(fp);
     return;
 }
 
