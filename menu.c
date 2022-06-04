@@ -1,5 +1,6 @@
 #include <stdio.h>
 #include <string.h>
+#include <stdlib.h>
 #include "library.h"
 #include "student.h"
 
@@ -37,7 +38,7 @@ void mainMenu() {
 
 void adminMenu() {
     printf("\t输入管理员密码以继续\n\t");
-    char password[128];
+    char password[128], num[128];
     scanf("%s", &password);
     if (strcmp(password, "1234") != 0) {
         printf("\t软错误：密码输入错误，返回中...\n");
@@ -67,7 +68,6 @@ void adminMenu() {
             delBook();
             break;
         case 4:
-            char num[128];
             printf("\t请输入学号\n\t");
             scanf("%s", num);
             if (!numCheck(num)) {
@@ -79,7 +79,6 @@ void adminMenu() {
             listBook();
             break;
         case 6:
-            char num[128];
             printf("\t请录入学号\n\t");
             scanf("%s", num);
             if (!numCheck(num)) {
