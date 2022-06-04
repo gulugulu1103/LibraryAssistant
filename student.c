@@ -1,4 +1,5 @@
 #include <stdio.h>
+#include <stdlib.h>
 #include <string.h>
 #include <time.h>
 #include "class.h"
@@ -271,7 +272,7 @@ void returnBook(char* num) {
     stu.oweNum--;
     // 修改library.dat, 将此书籍数+1
     FILE* libfp, * tempfp;
-    if ((err = fopen_s_s(&libfp, ".\\library.dat", "r+")) != 0) { // failed to open the file
+    if ((err = fopen_s(&libfp, ".\\library.dat", "r+")) != 0) { // failed to open the file
         printf("\t错误：无法打开library.dat，错误代码%d\n", err);
         printf("\t程序退出中...\n");
         exit(0);
