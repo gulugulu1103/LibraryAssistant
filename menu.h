@@ -1,3 +1,6 @@
+#ifndef __MENU_H
+#define __MENU_H
+
 //菜单宏，用户友好为宗旨，提示信息必须要有，界面用户友好
 
 int numCheck(char* str);
@@ -27,3 +30,4 @@ void mainMenu();
 功能2：主菜单右上角可显示馆藏书籍的数量
 */
 
+#endif

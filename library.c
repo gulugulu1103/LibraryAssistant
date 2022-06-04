@@ -12,8 +12,7 @@ int countBook()
     errno = 0;
     FILE* fp = fopen(".\\library.dat", "r+");
     if (!fp) {
-        printf("\t错误：无法打开library.dat，错误代码%d：%s\n", errno, strerror(errno));
-        exit(0);
+        return 0;
     }
     while (!feof(fp))
     {
@@ -30,6 +29,7 @@ void listBook()
     FILE* fp = fopen(".\\library.dat", "r+");
     if (!fp) {
         printf("\t错误：无法打开library.dat，错误代码%d：%s\n", errno, strerror(errno));
+        system("PAUSE");
         exit(0);
     }
     int i, number = 0, n;
@@ -43,7 +43,7 @@ void listBook()
     {
         printf("\t|**********************************************************************|\n");
         printf("\n\n");
-        printf("\t%-16s%-10s%-6d\n", "书名", "  类型","数量");
+        printf("\t%-16s%-10s%-6d\n", "书名", "     类型","数量");
         for (int i = 0; i < n; i++)
         {
             fread(&book, sizeof(Book), 1, fp);
@@ -67,6 +67,7 @@ void addBook()
     FILE* temp = fopen(".\\.library_temp.dat", "r+");
     if (!temp) {
         printf("\t错误：无法打开.library_temp.dat，错误代码%d：%s\n", errno, strerror(errno));
+        system("PAUSE");
         exit(0);
     }
     printf("\t现有如下书目\n");
@@ -116,11 +117,13 @@ void delBook() {
     fp = fopen(".\\library.dat", "r+");
     if (!fp) {
         printf("\t错误：无法打开library.dat，错误代码%d：%s\n", errno, strerror(errno));
+        system("PAUSE");
         exit(0);
     }
     temp = fopen(".\\.library_temp.dat", "w+");
     if (!temp) {
         printf("\t错误：无法打开.library_temp.dat，错误代码%d：%s\n", errno, strerror(errno));
+        system("PAUSE");
         exit(0);
     }
     printf("\t现有如下书目\n");
@@ -150,6 +153,7 @@ void delBook() {
         printf("\t错误：无法修改library_tmp.dat为library.dat\n");
         printf("\t程序退出中...\n");
         fclose(fp), fclose(temp);
+        system("PAUSE");
         exit(0);
     }
 }
@@ -161,11 +165,13 @@ void editBook() {
     fp = fopen(".\\library.dat", "r+");
     if (!fp) {
         printf("\t错误：无法打开library.dat，错误代码%d：%s\n", errno, strerror(errno));
+        system("PAUSE");
         exit(0);
     }
     temp = fopen(".\\.library_temp.dat", "w+");
     if (!temp) {
         printf("\t错误：无法打开.library_temp.dat，错误代码%d：%s\n", errno, strerror(errno));
+        system("PAUSE");
         exit(0);
     }
     printf("\t现有如下书目\n");
@@ -199,6 +205,7 @@ void editBook() {
     else {
         printf("\t错误：无法修改.library_tmp.dat为library.dat\n");
         printf("\t程序退出中...\n");
+        system("PAUSE");
         exit(0);
     }
 }

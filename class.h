@@ -1,3 +1,7 @@
+#ifndef __CLASS_H
+#define __CLASS_H
+
+
 // 这里放着所有对象
 
 typedef struct {
@@ -22,3 +26,5 @@ typedef struct {
     Book owe[21]; // 未还的书本
     int oweNum; // 未还的书本数量
 } Stu;
+
+#endif

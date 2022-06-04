@@ -1,3 +1,6 @@
+#ifndef __STUDENT_H
+#define __STUDENT_H
+
 int countStu();
 // 该函数返回学生总数
 
@@ -15,3 +18,5 @@ void borrowBook(char* num);
 
 void returnBook(char* num);
 // 该函数会输出以num为学号未归还的书籍，让学生选择选项归还
+
+#endif

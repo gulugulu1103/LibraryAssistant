@@ -13,8 +13,7 @@ int countStu() {
     errno = 0; // 用来记录文件打开错误信息
     FILE* fp = fopen(".\\student.dat", "r+");
     if (!fp) {
-        printf("\t错误：无法打开student.dat，错误代码%d：%s\n", errno, strerror(errno));
-        exit(0);
+        return 0;
     }
     Stu stu;
     int cnt = 0;
@@ -33,6 +32,7 @@ void addStu(char* num) {
     FILE* fp = fopen(".\\student.dat", "a+");
     if (!fp) {
         printf("\t错误：无法打开student.dat，错误代码%d：%s\n", errno, strerror(errno));
+        system("PAUSE");
         exit(0);
     }
     Stu stu; // 初始化一个学生
@@ -50,6 +50,7 @@ int searchStu(char* num) {
     FILE* fp = fopen(".\\student.dat", "r+");
     if (!fp) {
         printf("\t错误：无法打开student.dat，错误代码%d：%s\n", errno, strerror(errno));
+        system("PAUSE");
         exit(0);
     }
     Stu stu;
@@ -76,6 +77,7 @@ void showStu(char* num) {
     FILE* fp = fopen(".\\student.dat", "r+");
     if (!fp) {
         printf("\t错误：无法打开student.dat，错误代码%d：%s\n", errno, strerror(errno));
+        system("PAUSE");
         exit(0);
     }
     Stu stu;
@@ -92,7 +94,7 @@ void showStu(char* num) {
     for (int i = 0; i < stu.recNum; i++) {
         rec = stu.rec[i];
         printf("\t %d | 《%s》 | %s | %s\n", i, \
-            rec.book.name, rec.time, (rec.borrow ? " 借 出 ":"归还"));
+            rec.book.name, rec.time, (rec.borrow ? " 借 出     ":"归还"));
     }
 }
 
@@ -111,6 +113,7 @@ void borrowBook(char* num) {
     stufp = fopen(".\\student.dat", "r+");
     if (!stufp) {
         printf("\t错误：无法打开student.dat，错误代码%d：%s\n", errno, strerror(errno));
+        system("PAUSE");
         exit(0);
     }
     fseek(stufp, stuIndex * sizeof(Stu), SEEK_SET);
@@ -137,6 +140,7 @@ void borrowBook(char* num) {
     libfp = fopen(".\\library.dat", "r+");
     if (!libfp) {
         printf("\t错误：无法打开library.dat，错误代码%d：%s\n", errno, strerror(errno));
+        system("PAUSE");
         exit(0);
     }
     fseek(libfp, destination * sizeof(Book), SEEK_SET);
@@ -152,11 +156,13 @@ void borrowBook(char* num) {
     libfp = fopen(".\\library.dat", "r+");
     if (!libfp) {
         printf("\t错误：无法打开library.dat，错误代码%d：%s\n", errno, strerror(errno));
+        system("PAUSE");
         exit(0);
     }
     tempfp = fopen(".\\.library_temp.dat", "w+");
     if (!tempfp) {
         printf("\t错误：无法打开.library_temp.dat，错误代码%d：%s\n", errno, strerror(errno));
+        system("PAUSE");
         exit(0);
     }
     fseek(libfp, 0, SEEK_SET), fseek(tempfp, 0, SEEK_SET);
@@ -176,13 +182,18 @@ void borrowBook(char* num) {
     if (rename(".\\.library_tmp.dat", ".\\library.dat") != 0) {
         printf("\t错误：无法修改.library_tmp.dat为library.dat\n");
         printf("\t程序退出中...\n");
+        system("PAUSE");
         exit(0);
     }
     fclose(libfp), fclose(tempfp);
     // 构建记录rec，添加进stu的借还表中
     time_t rawtime;
     time(&rawtime);
-    Rec rec = { bookFound, ctime(&rawtime), 1 };
+    // Rec rec = { bookFound, ctime(&rawtime), 1 };
+    Rec rec;
+    rec.book = bookFound;
+    rec.borrow = 1;
+    strcpy(rec.time, ctime(&rawtime));
     stu.rec[stu.recNum++] = rec;
     while (stu.recNum >= 16) {
         // 让stu.recNum始终保持15条
@@ -195,11 +206,13 @@ void borrowBook(char* num) {
     stufp = fopen(".\\student.dat", "r+");
     if (!stufp) {
         printf("\t错误：无法打开student.dat，错误代码%d：%s\n", errno, strerror(errno));
+        system("PAUSE");
         exit(0);
     }
     tempfp = fopen(".\\.student_temp.dat", "w+");
     if (!tempfp) {
         printf("\t错误：无法打开.student_temp.dat，错误代码%d：%s\n", errno, strerror(errno));
+        system("PAUSE");
         exit(0);
     }
     fseek(stufp, 0, SEEK_SET), fseek(tempfp, 0, SEEK_SET);
@@ -221,6 +234,7 @@ void borrowBook(char* num) {
     else {
         printf("\t错误：无法修改.library_tmp.dat为library.dat\n");
         printf("\t程序退出中...\n");
+        system("PAUSE");
         exit(0);
     }
 }
@@ -239,6 +253,7 @@ void returnBook(char* num) {
     stufp = fopen(".\\student.dat", "r+");
     if (!stufp) {
         printf("\t错误：无法打开student.dat，错误代码%d：%s\n", errno, strerror(errno));
+        system("PAUSE");
         exit(0);
     }
     fseek(stufp, stuIndex * sizeof(Stu), SEEK_SET);
@@ -272,11 +287,13 @@ void returnBook(char* num) {
     libfp = fopen(".\\library.dat", "r+");
     if (!libfp) {
         printf("\t错误：无法打开library.dat，错误代码%d：%s\n", errno, strerror(errno));
+        system("PAUSE");
         exit(0);
     }
     tempfp = fopen(".\\.library_temp.dat", "w+");
     if (!tempfp) {
         printf("\t错误：无法打开.library_temp.dat，错误代码%d：%s\n", errno, strerror(errno));
+        system("PAUSE");
         exit(0);
     }
     fseek(libfp, 0, SEEK_SET), fseek(tempfp, 0, SEEK_SET);
@@ -294,13 +311,18 @@ void returnBook(char* num) {
     if (rename(".\\.library_tmp.dat", ".\\library.dat") != 0) {
         printf("\t错误：无法修改.library_tmp.dat为library.dat\n");
         printf("\t程序退出中...\n");
+        system("PAUSE");
         exit(0);
     }
     fclose(libfp), fclose(tempfp);
     // 构建记录，添加进stu
     time_t rawtime;
     time(&rawtime);
-    Rec rec = { bookFound, ctime(&rawtime), 1 };
+    // Rec rec = { bookFound, ctime(&rawtime), 1 };
+    Rec rec;
+    rec.book = bookFound;
+    rec.borrow = 0;
+    strcpy(rec.time, ctime(&rawtime));
     stu.rec[stu.recNum++] = rec;
     while (stu.recNum >= 16) {
         // 让stu.recNum始终保持15条
@@ -313,11 +335,13 @@ void returnBook(char* num) {
     stufp = fopen(".\\student.dat", "r+");
     if (!stufp) {
         printf("\t错误：无法打开student.dat，错误代码%d：%s\n", errno, strerror(errno));
+        system("PAUSE");
         exit(0);
     }
     tempfp = fopen(".\\.student_temp.dat", "w+");
     if (!tempfp) {
         printf("\t错误：无法打开.student_temp.dat，错误代码%d：%s\n", errno, strerror(errno));
+        system("PAUSE");
         exit(0);
     }
     n = countStu();
@@ -338,6 +362,7 @@ void returnBook(char* num) {
     else {
         printf("\t错误：无法修改.library_tmp.dat为library.dat\n");
         printf("\t程序退出中...\n");
+        system("PAUSE");
         exit(0);
     }
 }
