@@ -19,6 +19,6 @@ typedef struct {
     char num[81];
     Rec rec[21]; // 借还记录数组
     int recNum; // 借还记录数量
-    Book owe[20]; // 未还的书本
+    Book owe[21]; // 未还的书本
     int oweNum; // 未还的书本数量
 } Stu;

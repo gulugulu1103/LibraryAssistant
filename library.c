@@ -6,12 +6,12 @@ void delBook() {
     // 该函数调用listBook()，随后接收用户的序号来删除书目
     FILE* fp, * temp;
     errno_t err; // 专门用来记录错误的变量，本质是一个int
-    if ((err = fopen(&fp, ".\\library.dat", "r+")) != 0) { // failed to open the file
+    if ((err = fopen_s(&fp, ".\\library.dat", "r+")) != 0) { // failed to open the file
         printf("\t错误：无法打开library.dat，错误代码%d\n", err);
         printf("\t程序退出中...\n");
         exit(0);
     }
-    if ((err = fopen(&temp, ".\\.library_temp.dat", "w+")) != 0) { // failed to open the file
+    if ((err = fopen_s(&temp, ".\\.library_temp.dat", "w+")) != 0) { // failed to open the file
         printf("\t错误：无法打开.library_temp.dat，错误代码%d\n", err);
         printf("\t程序退出中...\n");
         exit(0);
@@ -51,12 +51,12 @@ void editBook() {
     // 该函数调用listBook(), 随后接收用户的序号来修改书目
     FILE* fp, * temp;
     errno_t err; // 用来记录
-    if ((err = fopen(&fp, ".\\library.dat", "r+")) != 0) { // failed to open the file
+    if ((err = fopen_s(&fp, ".\\library.dat", "r+")) != 0) { // failed to open the file
         printf("\t错误：无法打开library.dat，错误代码%d\n", err);
         printf("\t程序退出中...\n");
         exit(0);
     }
-    if ((err = fopen(&temp, ".\\.library_temp.dat", "w+")) != 0) { // failed to open the file
+    if ((err = fopen_s(&temp, ".\\.library_temp.dat", "w+")) != 0) { // failed to open the file
         printf("\t错误：无法打开.library_temp.dat，错误代码%d\n", err);
         printf("\t程序退出中...\n");
         exit(0);
