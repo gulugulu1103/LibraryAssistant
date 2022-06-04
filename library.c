@@ -45,7 +45,7 @@ void listBook()
         }
         printf("\t|**********************************************************************|\n");
         printf("\n\n");
-        printf("\t%-16s%-10s%-6d\n", "书名", "     类型","数量");
+        printf("\t%-16s%-10s%-6d\n", "书名", "类型","数量");
         for (int i = 0; i < n; i++)
         {
             fread(&book, sizeof(Book), 1, fp);
@@ -59,11 +59,9 @@ void listBook()
     }
     return;
 }
-
-
 void addBook()
 {
-	int a = access(.\\.library.dat,F_OK)//access函数用来判断文件是否存在 
+	int a = access(".\\.library.dat",F_OK)//access函数用来判断文件是否存在 
 	if (a == 0)//文件存在,直接进行add操作 
 	{
 		Book ibook;//用以添加额外书籍的变量ibook 
