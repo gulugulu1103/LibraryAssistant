@@ -3,6 +3,7 @@
 #include <errno.h>
 #include <string.h>
 #include "class.h"
+#include "library.h"
 
 int countBook()
 {

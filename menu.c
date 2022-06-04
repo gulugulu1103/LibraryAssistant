@@ -3,6 +3,7 @@
 #include <stdlib.h>
 #include "library.h"
 #include "student.h"
+#include "menu.h"
 
 int numCheck(char* str) {
     int n = strlen(str), cnt = 0;
@@ -17,8 +18,6 @@ int numCheck(char* str) {
 功能1：判断输入的是否全部是数字，如果不是数字，提示循环输入；
 功能2：当输入的是数字时，则停止循环。
 */
-
-
 
 void adminMenu() {
     printf("\t输入管理员密码以继续\n\t");

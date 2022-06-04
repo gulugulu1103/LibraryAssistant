@@ -6,6 +6,7 @@
 #include "class.h"
 #include "library.h"
 #include "menu.h"
+#include "student.h"
 
 int countStu() {
     // 该函数返回学生总数
