@@ -4,7 +4,6 @@
 void addBook()
 {
 	FILE * temp;
-	char Flag;
 	Book ibook;//用以添加额外书籍的变量ibook 
 	Book book;// 初始化一个book; 
     errno_t err; // 专门用来记录错误的变量，本质是一个int
@@ -15,7 +14,6 @@ void addBook()
     }
     printf("\t现有如下书目\n");
     listBook();
-    Flag = getchar();
 	int i = 0,flag;
 	int n = countBook();
 	//循环加入书目 
@@ -50,8 +48,6 @@ void addBook()
 		printf("\t新图书信息已经保存!\n");
 		n++;
 	}
-	printf("\t继续输入信息吗?(y/n)");
-	Flag = getchar();
 	fclose(temp);
 	printf("\t添加该图书信息执行完毕!\n");
 }
