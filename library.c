@@ -61,7 +61,7 @@ void listBook()
 }
 void addBook()
 {
-	int a = access(".\\.library.dat",F_OK)//access函数用来判断文件是否存在 
+	int a = access(".\\.library.dat",F_OK);//access函数用来判断文件是否存在 
 	if (a == 0)//文件存在,直接进行add操作 
 	{
 		Book ibook;//用以添加额外书籍的变量ibook 
