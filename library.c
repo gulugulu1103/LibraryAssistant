@@ -5,8 +5,8 @@ void addBook()
 {
 	FILE * temp;
 	char Flag;
-	Book book[1000];
-	Book ibook[1000]; 
+	Book ibook;//用以添加额外书籍的变量ibook 
+	Book book;// 初始化一个book; 
     errno_t err; // 专门用来记录错误的变量，本质是一个int
     if ((err = fopen_s(&temp,".\\.library_temp.dat", "a+")) != 0) { // failed to open the file
         printf("\t错误：无法打开.library_temp.dat，错误代码%d\n", err);
@@ -27,34 +27,34 @@ void addBook()
 	//循环加入书目 
 	while (Flag == 'y')
 	{ 
-		//图书编号不能重复
-		printf("请按顺序输入书名，书籍类型：（中间空格隔开）\n");
+		//输入需要添加的书本信息 
+		printf("\t请按顺序输入书名，书籍类型：（中间空格隔开）\n");
 		do
 		{
-			flag = 0;
-			scanf("%s %s", &ibook[n-1].name, &ibook[n-1].type);
-			for (i = 0; i < n; i++)
+			flag = 1;
+			scanf("%s %s", &ibook.name, &ibook.type);
+			for (fread(&book, sizeof(Book), 1, temp) != EOF)
 			{
-				if (strcmp(book[i].name,ibook[n-1].name) != 0)
+				if (strcmp(ibook.name,book.name) == 0)
 				{
+					printf("\t该图书已经存在,请重新输入:   ");
 					break;
 				}
+				else
+				{
+					flag = 0;
+				} 
 			}
-			if (i == n-1)
-			{
-				printf("\t该图书已经存在,请重新输入:   ");
-				break;
-			} 
 		} while (flag == 1);
 		//将新书目写入
-		if (fwrite(&ibook[n-1], sizeof(Book), 1, temp) != 1)
+		if (fwrite(&ibook, sizeof(Book), 1, temp) != 1)
 		{
 			printf("\t无法保存该信息!\n");
 			return 0;
 		}
 		else
 		{
-			printf("\t%d号图书信息已经保存!\n", ibook[n-1].num);
+			printf("\t新图书信息已经保存!\n");
 			n++;
 		}
 		printf("\t继续输入信息吗?(y/n)");
@@ -67,17 +67,18 @@ void listBook()
 {
 	FILE *fp;
 	errno_t err;
-    if ((err = fopen_s(&fp, ".\\library.dat", "r+")) != 0) { // failed to open the file
+    if ((err = fopen_s(&fp, ".\\library.dat", "r+")) != 0) 
+	{ 
+		// failed to open the file
         printf("\t错误：无法打开library.dat，错误代码%d\n", err);
         printf("\t程序退出中...\n");
         exit(0);
     }
-    int i, record,number = 0;
-    Book book[i];
-    record = countBook();
+    int i,number = 0;
+    Book book;
     if (record <= 0)
     {
-    	printf ("\t当前图书库里缺少书籍，请先添加书目")； 
+    	printf ("\t当前图书库里缺少书籍，请先添加书目");
 	}
 	else
 	{ 
@@ -85,10 +86,10 @@ void listBook()
 		printf("\t|**********************************************************************|\n");
 		printf("\n\n");
 		printf("\t%-16s%-10s\n", "书名", "类型");
-    	for (i = 0;i < record;i++)
+    	for (fread(&book, sizeof(Book), 1, fp) != EOF)
     	{
-    		printf("\t%d%-16s%-10s\n",number,book[i].name,book[i].type);
-    		n++;
+    		printf("\t%d%-16s%-10s\n",number,book.name,book.type);
+    		number++;
 		}
 		printf("\n\n");
 		printf("\t|**********************************************************************|\n");
