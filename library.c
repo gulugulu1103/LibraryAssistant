@@ -67,7 +67,7 @@ void listBook()
     char ch;//判断文件是否为空 
     Book book;
     ch = fgets(fp);
-    if(ch == EOF)
+    if(n == 0)
 	{
 		printf("暂时无书目记录，请先添加书目！"); 
 	} 
