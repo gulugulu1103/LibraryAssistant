@@ -1,12 +1,7 @@
-#include <stdio.h>
-#include "class.h"
+#include "menu.h"
 
 int main() {
-    int choice;
     while (1) {
-        choice = mainMenu();
-        switch (choice) {
-            ;
-        }
+        mainMenu();
     }
 }
