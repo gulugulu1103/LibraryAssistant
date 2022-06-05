@@ -57,7 +57,8 @@ void adminMenu() {
             printf("\t请输入学号\n\t");
             scanf("%s", num);
             if (!numCheck(num)) {
-                printf("\t学号不合法，必须是10位数数字\n");
+                printf("\t学号不合法，必须是10位数数字\n\t");
+                system("PAUSE");
                 break;
             }
             showStu(num);
@@ -70,7 +71,8 @@ void adminMenu() {
             scanf("%s", num);
             printf("%s", num);
             if (!numCheck(num)) {
-                printf("\t学号不合法，必须是10位数数字\n");
+                printf("\t学号不合法，必须是10位数数字\n\t");
+                system("PAUSE");
                 break;
             }
             addStu(num);

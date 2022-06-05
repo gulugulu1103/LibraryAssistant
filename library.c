@@ -148,6 +148,12 @@ void addBook()
 void delBook() {
     // 该函数调用listBook()，随后接收用户的序号来删除书目
     FILE* fp, * temp;
+    int input, n = countBook();
+    if (!n) {
+        printf("\t暂无书目，先加书目！\n\t"); 
+        system("PAUSE");
+        return;
+    }
     errno = 0;
     fp = fopen(".\\library.dat", "r+");
     if (!fp) {
@@ -164,7 +170,6 @@ void delBook() {
     printf("\t现有如下书目\n");
     listBook();
     printf("\t请输入需要删除的书目序号以继续\n\t");
-    int input, n = countBook();
     scanf("%d", &input);
     if (!(input >= 0 && input < n)) {
         printf("\t错误：输入的书目序号不合法\n");
@@ -196,6 +201,12 @@ void delBook() {
 
 void editBook() {
     // 该函数调用listBook(), 随后接收用户的序号来修改书目
+    int input, n = countBook();
+    if (!n) {
+        printf("\t暂无书目，先加书目！\n\t"); 
+        system("PAUSE");
+        return;
+    }
     FILE* fp, * temp;
     errno = 0;
     fp = fopen(".\\library.dat", "r+");
@@ -213,7 +224,6 @@ void editBook() {
     printf("\t现有如下书目\n");
     listBook();
     printf("\t请输入需要修改的书目序号以继续\n\t");
-    int input, n = countBook();
     scanf("%d", &input);
     if (!(input >= 0 && input < n)) {
         printf("\t错误：输入的书目序号不合法\n");

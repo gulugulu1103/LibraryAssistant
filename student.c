@@ -124,11 +124,16 @@ void showStu(char* num) {
     }
     fseek(fp, stuIndex * sizeof(Stu), SEEK_SET);
     fread(&stu, sizeof(Stu), 1, fp);
+    if (!stu.recNum) {
+        printf("\t你暂没有借阅记录\n\t");
+        system("PAUSE");
+        return;
+    }
     Rec rec; // 记录
     for (int i = 0; i < stu.recNum; i++) {
         rec = stu.rec[i];
         printf("\t %d | 《%s》 | %s | %s\n", i, \
-            rec.book.name, rec.time, (rec.borrow ? "借出":"归还"));
+        rec.book.name, rec.time, (rec.borrow ? "借 出 ":"归还"));
     }
 }
 
@@ -136,6 +141,12 @@ void borrowBook(char* num) {
     // 该函数调用library库中的listBook()函数，询问用户借阅书目的序号,修改library.dat与student.dat
     // 先检验学生是否能借书
     errno = 0; // 用来记录文件打开错误信息
+    int n = countBook();
+    if (n == 0) {
+        printf("\t错误：没有书目信息，请联系管理员添加数目信息\n\t");
+        system("PAUSE");
+        return;
+    }
     FILE* libfp, * tempfp, * stufp;
     Stu stu;
     int stuIndex = searchStu(num);
@@ -197,8 +208,9 @@ void borrowBook(char* num) {
     fread(&bookFound, sizeof(Book), 1, libfp);
     fclose(libfp);
     if (bookFound.num <= 0) { // bookFound.num 不可以-1
-        printf("错误：该书目不可借阅，因为其数量为0");
-        printf("\t程序返回中...\n");
+        printf("\t错误：该书目不可借阅，因为其数量为0\n");
+        printf("\t程序返回中...\n\t");
+        system("PAUSE");
         return;
     }
     // 已经选择目标书目，进入修改library.dat阶段，让所选书目数量-1
@@ -221,7 +233,6 @@ void borrowBook(char* num) {
         exit(0);
     }
     fseek(libfp, 0, SEEK_SET), fseek(tempfp, 0, SEEK_SET);
-    int n = countBook();
     for (int i = 0; i < n; ++i) {
         fread(&book, sizeof(Book), 1, libfp);
         if (i == destination) {
