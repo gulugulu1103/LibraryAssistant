@@ -1,37 +1,66 @@
 # 程序设计大作业：图书馆借还书程序
 
 #### 介绍
-图书馆借还书程序
+图书馆借还书程序：本程序为本人大一下的《C语言程序设计》的期末小组作业。经讨论，我们决定使用git+多文件模式来完成这个项目。
+
+以下为实验题目：
+
+> 图书馆借还书程序
+>
+> 基本功能：
+>
+>   (1)能够新增书籍信息，并能统计馆藏数量。
+>
+>   (2)能够删除、修改书籍信息。
+>
+>   (3)能够查询、显示单个学生的借阅记录。
+>
+> 附加功能：
+>
+> 不做具体要求，参考：可增加书籍分类管理、一定范围内记录查询……
+>
+> 团队合作要求：
+>
+> 1、2-3人一组；
+>
+> 2、组员有明确分工，每个人都有可量化的贡献度；
+>
+> 3、答辩形式：每个小组由一名代表讲述和演示.
+
+
 
 #### 软件架构
-软件架构说明
+
+`main.c` 用于存放main函数入口
+
+`menu.c` 用于存放主菜单的显示函数，并完成一些前端校验
+
+`student.c` 用于存放对学生操作的函数
+
+`library.c` 用于存放对书籍操作的函数
+
+程序会生成`library.dat`用于存放所有图书信息
+
+程序会生成`student.dat`用于存放所有学生信息
 
 
-#### 安装教程
-
-1.  xxxx
-2.  xxxx
-3.  xxxx
 
 #### 使用说明
 
-1.  xxxx
-2.  xxxx
-3.  xxxx
+1.  管理员模式密码为1234
 
-#### 参与贡献
+2.  学号的格式必须为10位数字
 
-1.  Fork 本仓库
-2.  新建 Feat_xxx 分支
-3.  提交代码
-4.  新建 Pull Request
+    
+
+#### 小组成员
+
+陶辰龙：主要负责`student.c`
+
+倪天宇：主要负责`library.c`
+
+杨茗柯：主要负责`menu.c`
 
 
-#### 特技
 
-1.  使用 Readme\_XXX.md 来支持不同的语言，例如 Readme\_en.md, Readme\_zh.md
-2.  Gitee 官方博客 [blog.gitee.com](https://blog.gitee.com)
-3.  你可以 [https://gitee.com/explore](https://gitee.com/explore) 这个地址来了解 Gitee 上的优秀开源项目
-4.  [GVP](https://gitee.com/gvp) 全称是 Gitee 最有价值开源项目，是综合评定出的优秀开源项目
-5.  Gitee 官方提供的使用手册 [https://gitee.com/help](https://gitee.com/help)
-6.  Gitee 封面人物是一档用来展示 Gitee 会员风采的栏目 [https://gitee.com/gitee-stars/](https://gitee.com/gitee-stars/)
+# 感谢！
