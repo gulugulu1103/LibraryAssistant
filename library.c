@@ -59,7 +59,6 @@ void listBook()
         fclose(fp);
     }
     printf("\t");
-    system("pause");
     return;
 }
 void addBook()

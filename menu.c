@@ -65,6 +65,7 @@ void adminMenu() {
             break;
         case 5:
             listBook();
+            system("PAUSE");
             break;
         case 6:
             printf("\t«Î¬º»Î—ß∫≈\n\t");
