@@ -25,14 +25,15 @@ void adminMenu() {
     char password[128], num[128];
     scanf("%s", &password);
     if (strcmp(password, "1234") != 0) {
-        printf("\t软错误：密码输入错误，返回中...\n");
+        printf("\t软错误：密码输入错误，返回中...\n\t");
+        system("PAUSE");
         return;
     }
     // 密码校验成功，进入管理员模式
     while (1) {
+        system("cls");
         int choice;
-
-        printf("----------------------------------------------------------------");
+        printf("----------------------------------------------------------------\n");
         printf("\t       管理员模式\n");
         printf("\t 1.录入图书信息    \t2.修改图书信息\n");
         printf("\t 3.删除图书信息    \t4.查单个学生的借阅记录\n") ;
@@ -75,7 +76,8 @@ void adminMenu() {
             addStu(num);
             break;
         default:
-            printf("\t错误：暂无编号为%d的菜单，请重试\n", choice);
+            printf("\t错误：暂无编号为%d的菜单，请重试\n\t", choice);
+            system("PAUSE");
         }
     }
 }
@@ -88,20 +90,20 @@ void adminMenu() {
 
 
 void stuMenu() {
-
     printf("\t输入学号以继续\n\t");
     char num[128];
     scanf("%s", &num);
     if (searchStu(num) == -1) {
-        printf("\t软错误：未找到此学生，请联系管理员\n");
+        printf("\t软错误：未找到此学生，请联系管理员\n\t");
+        system("PAUSE");
         return;
     }
     // 密码校验成功，进入管理员模式
     while (1) {
-
+        system("cls");
         int choice;
-        printf("----------------------------------------------------------------");
-        printf("\t       学生模式\n");
+        printf("----------------------------------------------------------------\n");
+        printf("\t       学生模式\t\t已登录学号：%s\n", num);
         printf("\t 1.借阅书籍 \t\t2.归还书籍\n");
         printf("\t 3.查询你的阅记录\n") ;
         printf("\t 0.返回首页\n");
@@ -120,7 +122,8 @@ void stuMenu() {
             showStu(num);
             break;
         default:
-            printf("\t错误：暂无编号为%d的菜单，请重试\n", choice);
+            printf("\t错误：暂无编号为%d的菜单，请重试\n\t", choice);
+            system("PAUSE");
         }
     }
 }
@@ -133,16 +136,15 @@ void stuMenu() {
 
 //菜单，用户友好为宗旨，提示信息必须要有，界面用户友好
 void mainMenu() {
-
+    system("cls");
     int choice;
-    printf("----------------------------------------------------------------");
+    printf("----------------------------------------------------------------\n");
     printf("\t\t程序设计与实践\t期末大作业\n");
-    printf("\t\t欢迎光临图书管理系统\t\t\t本馆现有藏书%d本\n", countBook());
+    printf("\t\t欢迎光临图书管理系统\t\t本馆现有藏书%d本\n", countBook());
     printf("\t1.以学生身份继续\n");
     printf("\t2.以管理员身份继续\n");
     printf("\t0.退出系统\n");
-    printf("\n\t请输入您的选择：\n");
-    printf("\t");
+    printf("\n\t请输入您的选择：\n\t");
     scanf("%d", &choice);
     switch (choice) {
     case 0:
@@ -156,7 +158,8 @@ void mainMenu() {
         adminMenu();
         break;
     default:
-        printf("\t错误：暂无编号为%d的菜单，请重试\n", choice);
+        printf("\t错误：暂无编号为%d的菜单，请重试\n\t", choice);
+        system("PAUSE");
     }
 }
 // 该函数打印一个主菜单

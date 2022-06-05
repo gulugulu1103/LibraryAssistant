@@ -70,7 +70,7 @@ void addBook()
         FILE* temp = fopen(".\\library.dat", "r+");
         if (!temp)
         {
-            printf("\t错误：无法打开library.dat，错误代码%d：%s\n", errno, strerror(errno));
+            printf("\t错误：无法打开library.dat，错误代码%d：%s\n\t", errno, strerror(errno));
             system("PAUSE");
             exit(0);
         }
@@ -80,7 +80,7 @@ void addBook()
         int n = countBook();
         //循环加入书目 
         //输入需要添加的书本信息 
-        printf("\t请按顺序输入书名,书籍类型,书目数量：（中间空格隔开）\n");
+        printf("\t请按顺序输入书名,书籍类型,书目数量：（中间空格隔开）\n\t");
         do
         {
             flag = 1;
@@ -120,7 +120,7 @@ void addBook()
         errno = 0; // 专门用来记录错误的变量，本质是一个int
         FILE* temp = fopen(".\\library.dat", "a+");
         if (!temp) {
-            printf("\t错误：无法打开library.dat，错误代码%d：%s\n", errno, strerror(errno));
+            printf("\t错误：无法打开library.dat，错误代码%d：%s\n\t", errno, strerror(errno));
             system("PAUSE");
             exit(0);
         }
@@ -128,19 +128,17 @@ void addBook()
         int n = countBook();
         //循环加入书目 
         //输入需要添加的书本信息 
-        printf("\t请按顺序输入书名,书籍类型,书目数量：（中间空格隔开）\n");
+        printf("\t请按顺序输入书名,书籍类型,书目数量：（中间空格隔开）\n\t");
         scanf("%s %s %d", &ibook.name, &ibook.type, &ibook.num);
         if (fwrite(&ibook, sizeof(Book), 1, temp) != 1)
         {
-            printf("\t无法保存该信息!\n");
+            printf("\t无法保存该信息!\n\t");
+            system("PAUSE");
             return;
         }
-        else
-        {
-            printf("\t新图书信息已经保存!\n");
-        }
         fclose(temp);
-        printf("\t添加该图书信息执行完毕!\n");
+        printf("\t添加该图书信息执行完毕!\n\t");
+        system("PAUSE");
     }
 }
 
@@ -150,25 +148,26 @@ void delBook() {
     errno = 0;
     fp = fopen(".\\library.dat", "r+");
     if (!fp) {
-        printf("\t错误：无法打开library.dat，错误代码%d：%s\n", errno, strerror(errno));
+        printf("\t错误：无法打开library.dat，错误代码%d：%s\n\t", errno, strerror(errno));
         system("PAUSE");
         exit(0);
     }
     temp = fopen(".\\.library_temp.dat", "w+");
     if (!temp) {
-        printf("\t错误：无法打开.library_temp.dat，错误代码%d：%s\n", errno, strerror(errno));
+        printf("\t错误：无法打开.library_temp.dat，错误代码%d：%s\n\t", errno, strerror(errno));
         system("PAUSE");
         exit(0);
     }
     printf("\t现有如下书目\n");
     listBook();
-    printf("\t请输入需要删除的书目序号以继续\n");
+    printf("\t请输入需要删除的书目序号以继续\n\t");
     int input, n = countBook();
     scanf("%d", &input);
     if (!(input >= 0 && input < n)) {
         printf("\t错误：输入的书目序号不合法\n");
-        printf("\t返回中...\n");
+        printf("\t返回中...\n\t");
         fclose(fp), fclose(temp);
+        system("PAUSE");
         return;
     }
     fseek(fp, 0, SEEK_SET), fseek(temp, 0, SEEK_SET);
@@ -186,7 +185,7 @@ void delBook() {
     }
     else {
         printf("\t错误：无法修改library_temp.dat为library.dat\n");
-        printf("\t程序退出中...\n");
+        printf("\t程序退出中...\n\t");
         system("PAUSE");
         exit(0);
     }
@@ -198,24 +197,25 @@ void editBook() {
     errno = 0;
     fp = fopen(".\\library.dat", "r+");
     if (!fp) {
-        printf("\t错误：无法打开library.dat，错误代码%d：%s\n", errno, strerror(errno));
+        printf("\t错误：无法打开library.dat，错误代码%d：%s\n\t", errno, strerror(errno));
         system("PAUSE");
         exit(0);
     }
     temp = fopen(".\\.library_temp.dat", "w+");
     if (!temp) {
-        printf("\t错误：无法打开.library_temp.dat，错误代码%d：%s\n", errno, strerror(errno));
+        printf("\t错误：无法打开.library_temp.dat，错误代码%d：%s\n\t", errno, strerror(errno));
         system("PAUSE");
         exit(0);
     }
     printf("\t现有如下书目\n");
     listBook();
-    printf("\t请输入需要修改的书目序号以继续\n");
+    printf("\t请输入需要修改的书目序号以继续\n\t");
     int input, n = countBook();
     scanf("%d", &input);
     if (!(input >= 0 && input < n)) {
         printf("\t错误：输入的书目序号不合法\n");
-        printf("返回中...");
+        printf("\t返回中...\n\t");
+        system("PAUSE");
         fclose(fp), fclose(temp);
         return;
     }
@@ -237,11 +237,12 @@ void editBook() {
     remove(".\\library.dat");
     if (rename(".\\.library_temp.dat", ".\\library.dat") == 0) {
         // 重命名成功
-        printf("\t成功修改书名为：%s | 类型： %s | 数量：%d\n", edited.name, edited.type, edited.num);
+        printf("\t成功修改书名为：%s | 类型： %s | 数量：%d\n\t", edited.name, edited.type, edited.num);
+        system("PAUSE");
     }
     else {
         printf("\t错误：无法修改.library_temp.dat为library.dat\n");
-        printf("\t程序退出中...\n");
+        printf("\t程序退出中...\n\t");
         system("PAUSE");
         exit(0);
     }
