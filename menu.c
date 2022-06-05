@@ -69,7 +69,6 @@ void adminMenu() {
         case 6:
             printf("\t请录入学号\n\t");
             scanf("%s", num);
-            printf("%s", num);
             if (!numCheck(num)) {
                 printf("\t学号不合法，必须是10位数数字\n\t");
                 system("PAUSE");

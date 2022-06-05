@@ -34,36 +34,6 @@ int countStu() {
     return cnt;
 }
 
-void addStu(char* num) {
-    // 在"student.dat"中以追加模式新建以num为学号的学生
-    errno = 0; // 用来记录文件打开错误信息
-    FILE* fp = fopen(".\\student.dat", "a+");
-    if (!fp) {
-        if (errno == 2) {
-            printf("\t没有student.dat文件，请先创建学生\n\t");
-            system("PAUSE");
-            errno = 0; // 错误恢复标志
-            return;
-        }
-        printf("\t错误：无法打开student.dat，错误代码%d：%s\n\t", errno, strerror(errno));
-        system("PAUSE");
-        exit(0);
-    }
-    Stu stu; // 初始化一个学生
-    stu.oweNum = stu.recNum = 0;
-    Book book;
-    Rec rec;
-    for (int i = 0; i < 21; i++) {
-        stu.owe[i] = book;
-        stu.rec[i] = rec;
-    }
-    strcpy(stu.num, num);
-    fwrite(&stu, sizeof(Stu), 1, fp);
-    printf("\t成功添加学号为%s学生\n\t", stu.num);
-    system("PAUSE");
-    fclose(fp);
-}
-
 int searchStu(char* num) {
     // 在"student.dat"中查找以num为学号的学生，返回学生的顺位, 若没有找到则返回-1。
     int index = -1;
@@ -96,6 +66,41 @@ int searchStu(char* num) {
     // }
     fclose(fp);
     return index;
+}
+
+void addStu(char* num) {
+    // 在"student.dat"中以追加模式新建以num为学号的学生
+    if (searchStu(num) > -1) {
+        printf("\t错误：该学生已存在\n\t");
+        system("PAUSE");
+        return;
+    }
+    errno = 0; // 用来记录文件打开错误信息
+    FILE* fp = fopen(".\\student.dat", "a+");
+    if (!fp) {
+        if (errno == 2) {
+            printf("\t没有student.dat文件，请先创建学生\n\t");
+            system("PAUSE");
+            errno = 0; // 错误恢复标志
+            return;
+        }
+        printf("\t错误：无法打开student.dat，错误代码%d：%s\n\t", errno, strerror(errno));
+        system("PAUSE");
+        exit(0);
+    }
+    Stu stu; // 初始化一个学生
+    stu.oweNum = stu.recNum = 0;
+    Book book;
+    Rec rec;
+    for (int i = 0; i < 21; i++) {
+        stu.owe[i] = book;
+        stu.rec[i] = rec;
+    }
+    strcpy(stu.num, num);
+    fwrite(&stu, sizeof(Stu), 1, fp);
+    printf("\t成功添加学号为%s学生\n\t", stu.num);
+    system("PAUSE");
+    fclose(fp);
 }
 
 void showStu(char* num) {
