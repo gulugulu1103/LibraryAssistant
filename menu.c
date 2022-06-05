@@ -13,32 +13,32 @@ int numCheck(char* str) {
     }
     return n == cnt;
 }
-// 该函数用于检验str是否是10位全数字字符串。（检查字符串）
+// �ú������ڼ���str�Ƿ���10λȫ�����ַ�����������ַ�����
 /*
-功能1：判断输入的是否全部是数字，如果不是数字，提示循环输入；
-功能2：当输入的是数字时，则停止循环。
+����1���ж�������Ƿ�ȫ�������֣�����������֣���ʾѭ�����룻
+����2���������������ʱ����ֹͣѭ����
 */
 
 void adminMenu() {
 
-    printf("\t输入管理员密码以继续\n\t");
+    printf("\t�������Ա�����Լ���\n\t");
     char password[128], num[128];
     scanf("%s", &password);
     if (strcmp(password, "1234") != 0) {
-        printf("\t软错误：密码输入错误，返回中...\n");
+        printf("\t����������������󣬷�����...\n");
         return;
     }
-    // 密码校验成功，进入管理员模式
+    // ����У��ɹ����������Աģʽ
     while (1) {
         int choice;
 
         printf("----------------------------------------------------------------");
-        printf("\t       管理员模式\n");
-        printf("\t 1.录入图书信息    \t2.修改图书信息\n");
-        printf("\t 3.删除图书信息    \t4.查单个学生的借阅记录\n") ;
-        printf("\t 5.查看所有图书信息\t 6.录入学生信息\n") ;
-        printf("\t 0.返回首页\n");
-        printf("\t请输入您的选择：\n\t");
+        printf("\t       ����Աģʽ\n");
+        printf("\t 1.¼��ͼ����Ϣ    \t2.�޸�ͼ����Ϣ\n");
+        printf("\t 3.ɾ��ͼ����Ϣ    \t4.�鵥��ѧ���Ľ��ļ�¼\n") ;
+        printf("\t 5.�鿴����ͼ����Ϣ\t 6.¼��ѧ����Ϣ\n") ;
+        printf("\t 0.������ҳ\n");
+        printf("\t����������ѡ��\n\t");
         scanf("%d", &choice);
         switch (choice) {
         case 0:
@@ -53,10 +53,10 @@ void adminMenu() {
             delBook();
             break;
         case 4:
-            printf("\t请输入学号\n\t");
+            printf("\t������ѧ��\n\t");
             scanf("%s", num);
             if (!numCheck(num)) {
-                printf("\t学号不合法，必须是10位数数字\n");
+                printf("\tѧ�Ų��Ϸ���������10λ������\n");
                 break;
             }
             showStu(num);
@@ -65,47 +65,47 @@ void adminMenu() {
             listBook();
             break;
         case 6:
-            printf("\t请录入学号\n\t");
+            printf("\t��¼��ѧ��\n\t");
             scanf("%s", num);
             printf("%s", num);
             if (!numCheck(num)) {
-                printf("\t学号不合法，必须是10位数数字\n");
+                printf("\tѧ�Ų��Ϸ���������10λ������\n");
                 break;
             }
             addStu(num);
             break;
         default:
-            printf("\t错误：暂无编号为%d的菜单，请重试\n", choice);
+            printf("\t�������ޱ��Ϊ%d�Ĳ˵���������\n", choice);
         }
     }
 }
-// 该函数打印一个管理员菜单（管理员模式菜单）
+// �ú�����ӡһ������Ա�˵�������Աģʽ�˵���
 /*
-功能1：显示各种菜单选项；
-功能2：需要用户验证管理员密码，如果是预设的密码1234即通过，否则则返回-1；
-功能3：验证密码完成之后才打印菜单，菜单中包含对书籍信息的增删查改选项。
+����1����ʾ���ֲ˵�ѡ�
+����2����Ҫ�û���֤����Ա���룬�����Ԥ�������1234��ͨ���������򷵻�-1��
+����3����֤�������֮��Ŵ�ӡ�˵����˵��а������鼮��Ϣ����ɾ���ѡ�
 */
 
 
 void stuMenu() {
 
-    printf("\t输入学号以继续\n\t");
+    printf("\t����ѧ���Լ���\n\t");
     char num[128];
     scanf("%s", &num);
     if (searchStu(num) == -1) {
-        printf("\t软错误：未找到此学生，请联系管理员\n");
+        printf("\t������δ�ҵ���ѧ��������ϵ����Ա\n");
         return;
     }
-    // 密码校验成功，进入管理员模式
+    // ����У��ɹ����������Աģʽ
     while (1) {
 
         int choice;
         printf("----------------------------------------------------------------");
-        printf("\t       学生模式\n");
-        printf("\t 1.借阅书籍 \t\t2.归还书籍\n");
-        printf("\t 3.查询你的阅记录\n") ;
-        printf("\t 0.返回首页\n");
-        printf("\t请输入您的选择：\n\t");
+        printf("\t       ѧ��ģʽ\n");
+        printf("\t 1.�����鼮 \t\t2.�黹�鼮\n");
+        printf("\t 3.��ѯ����ļ�¼\n") ;
+        printf("\t 0.������ҳ\n");
+        printf("\t����������ѡ��\n\t");
         scanf("%d", &choice);
         switch (choice) {
         case 0:
@@ -120,33 +120,33 @@ void stuMenu() {
             showStu(num);
             break;
         default:
-            printf("\t错误：暂无编号为%d的菜单，请重试\n", choice);
+            printf("\t�������ޱ��Ϊ%d�Ĳ˵���������\n", choice);
         }
     }
 }
-// 该函数打印一个学生菜单，返回用户输入的选项。
+// �ú�����ӡһ��ѧ���˵��������û������ѡ�
 /*
-功能1：显示各种菜单选项
-功能2：需要用户输入学号，调用numCheck()函数检验学号是否合法，如果不合法则返回-1;
-功能3：学号合法之后才打印菜单，菜单中包含该学生对借还表的查询，增加（即借还）功能。(弄不来了）
+����1����ʾ���ֲ˵�ѡ��
+����2����Ҫ�û�����ѧ�ţ�����numCheck()��������ѧ���Ƿ�Ϸ���������Ϸ��򷵻�-1;
+����3��ѧ�źϷ�֮��Ŵ�ӡ�˵����˵��а�����ѧ���Խ軹���Ĳ�ѯ�����ӣ����軹�����ܡ�(Ū�����ˣ�
 */
 
-//菜单，用户友好为宗旨，提示信息必须要有，界面用户友好
+//�˵����û��Ѻ�Ϊ��ּ����ʾ��Ϣ����Ҫ�У������û��Ѻ�
 void mainMenu() {
 
     int choice;
     printf("----------------------------------------------------------------");
-    printf("\t\t程序设计与实践\t期末大作业\n");
-    printf("\t\t欢迎光临图书管理系统\t\t\t本馆现有藏书%d本\n", countBook());
-    printf("\t1.以学生身份继续\n");
-    printf("\t2.以管理员身份继续\n");
-    printf("\t0.退出系统\n");
-    printf("\n\t请输入您的选择：\n");
+    printf("\t\t���������ʵ��\t��ĩ����ҵ\n");
+    printf("\t\t��ӭ����ͼ�����ϵͳ\t\t\t�������в���%d��\n", countBook());
+    printf("\t1.��ѧ�����ݼ���\n");
+    printf("\t2.�Թ���Ա���ݼ���\n");
+    printf("\t0.�˳�ϵͳ\n");
+    printf("\n\t����������ѡ��\n");
     printf("\t");
     scanf("%d", &choice);
     switch (choice) {
     case 0:
-        printf("\t感谢您的光临\n");
+        printf("\t��л���Ĺ���\n");
         system("PAUSE");
         exit(0);
     case 1:
@@ -156,12 +156,12 @@ void mainMenu() {
         adminMenu();
         break;
     default:
-        printf("\t错误：暂无编号为%d的菜单，请重试\n", choice);
+        printf("\t�������ޱ��Ϊ%d�Ĳ˵���������\n", choice);
     }
 }
-// 该函数打印一个主菜单
+// �ú�����ӡһ�����˵�
 /*
-主菜单是我们程序的主入口，是一个大菜单包含了管理员入口和学生入口。
-功能1：显示各种菜单选项；
-功能2：主菜单右上角可显示馆藏书籍的数量。
+���˵������ǳ��������ڣ���һ����˵������˹���Ա��ں�ѧ����ڡ�
+����1����ʾ���ֲ˵�ѡ�
+����2�����˵����Ͻǿ���ʾ�ݲ��鼮��������
 */

@@ -2,29 +2,29 @@
 #define __CLASS_H
 
 
-// è¿™é‡Œæ”¾ç€æ‰€æœ‰å¯¹è±¡
+// ÕâÀï·Å×ÅËùÓĞ¶ÔÏó
 
 typedef struct {
-    // ä¸€æœ¬ä¹¦
+    // Ò»±¾Êé
     char name[81];
     char type[81];
-    int num; // ä¹¦çš„æ•°é‡
+    int num; // ÊéµÄÊıÁ¿
 } Book;
 
 typedef struct {
-    // ä¸€æ¡è®°å½•
-    Book book; // è®°å½•çš„å¯¹è±¡ï¼Œä¹¦æœ¬
-    char time[81]; // æ—¶é—´å­—ç¬¦ä¸²
-    int borrow;  // borrow = 1 æ˜¯å€Ÿå‡º, borrow = 0 æ˜¯å½’è¿˜
+    // Ò»Ìõ¼ÇÂ¼
+    Book book; // ¼ÇÂ¼µÄ¶ÔÏó£¬Êé±¾
+    char time[81]; // Ê±¼ä×Ö·û´®
+    int borrow;  // borrow = 1 ÊÇ½è³ö, borrow = 0 ÊÇ¹é»¹
 } Rec;
 
 typedef struct {
-    // å­¦ç”Ÿ
+    // Ñ§Éú
     char num[81];
-    Rec rec[21]; // å€Ÿè¿˜è®°å½•æ•°ç»„
-    int recNum; // å€Ÿè¿˜è®°å½•æ•°é‡
-    Book owe[21]; // æœªè¿˜çš„ä¹¦æœ¬
-    int oweNum; // æœªè¿˜çš„ä¹¦æœ¬æ•°é‡
+    Rec rec[21]; // ½è»¹¼ÇÂ¼Êı×é
+    int recNum; // ½è»¹¼ÇÂ¼ÊıÁ¿
+    Book owe[21]; // Î´»¹µÄÊé±¾
+    int oweNum; // Î´»¹µÄÊé±¾ÊıÁ¿
 } Stu;
 
 #endif

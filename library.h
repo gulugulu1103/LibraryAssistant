@@ -2,18 +2,18 @@
 #define __LIBRARY_H
 
 int countBook();
-// è¯¥å‡½æ•°éåŽ†"library.dat", è¿”å›žä¹¦æœ¬æ•°ç›®
+// ¸Ãº¯Êý±éÀú"library.dat", ·µ»ØÊé±¾ÊýÄ¿
 
 void listBook();
-// è¯¥å‡½æ•°éåŽ†"library.dat"ï¼Œè¯»å–bookä¿¡æ¯å¹¶æ‰“å°
+// ¸Ãº¯Êý±éÀú"library.dat"£¬¶ÁÈ¡bookÐÅÏ¢²¢´òÓ¡
 
 void addBook();
-// è¯¥å‡½æ•° åœ¨"library.dat"æ–‡ä»¶ä¸­è¿½åŠ å†™å…¥ä¸€ä¸ªbook
+// ¸Ãº¯Êý ÔÚ"library.dat"ÎÄ¼þÖÐ×·¼ÓÐ´ÈëÒ»¸öbook
 
 void delBook();
-// è¯¥å‡½æ•°è°ƒç”¨listBook()ï¼ŒéšåŽæŽ¥æ”¶ç”¨æˆ·çš„åºå·æ¥åˆ é™¤ä¹¦ç›®
+// ¸Ãº¯Êýµ÷ÓÃlistBook()£¬Ëæºó½ÓÊÕÓÃ»§µÄÐòºÅÀ´É¾³ýÊéÄ¿
 
 void editBook();
-// è¯¥å‡½æ•°è°ƒç”¨listBook(), éšåŽæŽ¥æ”¶ç”¨æˆ·çš„åºå·æ¥ä¿®æ”¹ä¹¦ç›®
+// ¸Ãº¯Êýµ÷ÓÃlistBook(), Ëæºó½ÓÊÕÓÃ»§µÄÐòºÅÀ´ÐÞ¸ÄÊéÄ¿
 
 #endif
