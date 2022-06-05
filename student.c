@@ -14,9 +14,6 @@ int countStu() {
     FILE* fp = fopen(".\\student.dat", "r+");
     if (!fp) {
         if (errno == 2) {
-            printf("\t没有student.dat文件，请先创建学生\n\t");
-            system("PAUSE");
-            errno = 0; // 错误恢复标志
             return 0;
         }
         printf("\t错误：无法打开student.dat，错误代码%d：%s\n\t", errno, strerror(errno));
@@ -36,6 +33,9 @@ int countStu() {
 
 int searchStu(char* num) {
     // 在"student.dat"中查找以num为学号的学生，返回学生的顺位, 若没有找到则返回-1。
+    if (countStu() == 0) {
+        return -1;
+    }
     int index = -1;
     errno = 0; // 用来记录文件打开错误信息
     FILE* fp = fopen(".\\student.dat", "r+");
@@ -61,9 +61,6 @@ int searchStu(char* num) {
         }
         ++i;
     }
-    // if (!feof(fp)) { // 未读到文末
-    //     printf("\t软错误：文件无法读到文末\n");
-    // }
     fclose(fp);
     return index;
 }
@@ -78,15 +75,11 @@ void addStu(char* num) {
     errno = 0; // 用来记录文件打开错误信息
     FILE* fp = fopen(".\\student.dat", "a+");
     if (!fp) {
-        if (errno == 2) {
-            printf("\t没有student.dat文件，请先创建学生\n\t");
+        if (errno != 2) {
+            printf("\t错误：无法打开student.dat，错误代码%d：%s\n\t", errno, strerror(errno));
             system("PAUSE");
-            errno = 0; // 错误恢复标志
-            return;
+            exit(0);
         }
-        printf("\t错误：无法打开student.dat，错误代码%d：%s\n\t", errno, strerror(errno));
-        system("PAUSE");
-        exit(0);
     }
     Stu stu; // 初始化一个学生
     stu.oweNum = stu.recNum = 0;
