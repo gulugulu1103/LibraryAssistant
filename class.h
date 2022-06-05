@@ -20,7 +20,7 @@ typedef struct {
 
 typedef struct {
     // 学生
-    char num[81];
+    char num[15];
     Rec rec[21]; // 借还记录数组
     int recNum; // 借还记录数量
     Book owe[21]; // 未还的书本
