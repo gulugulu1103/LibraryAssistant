@@ -148,7 +148,7 @@ void mainMenu() {
     scanf("%d", &choice);
     switch (choice) {
     case 0:
-        printf("\t感谢您的光临\n");
+        printf("\t感谢您的光临\n\t");
         system("PAUSE");
         exit(0);
     case 1:

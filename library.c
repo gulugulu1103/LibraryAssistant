@@ -29,9 +29,10 @@ void listBook()
     int i, number = 0, n;
     n = countBook();
     Book book;
-    if (n == 0)
+    if (n <= 0)
     {
-        printf("暂无书目，先添加书目！"); 
+        printf("\t暂无书目，先加书目！\n\t"); 
+        system("PAUSE");
         return;
     }
     else
@@ -43,20 +44,22 @@ void listBook()
             system("PAUSE");
             exit(0);
         }
-        printf("\t|**********************************************************************|\n");
+        printf("|**********************************************************************|\n");
         printf("\n\n");
         printf("\t%-16s%-10s%-6s\n", "书名", "    类型","数量");
         for (int i = 0; i < n; i++)
         {
             fread(&book, sizeof(Book), 1, fp);
-            printf("\t%d%-16s%-10s%-6d\n", number, book.name, book.type, book.num);
+            printf("\t%d | 《%-16s》 | %-10s | %-6d\n", number, book.name, book.type, book.num);
             number++;
         }
         printf("\n\n");
-        printf("\t|**********************************************************************|\n");
+        printf("|**********************************************************************|\n");
         printf("\n\n");
         fclose(fp);
     }
+    printf("\t");
+    system("pause");
     return;
 }
 void addBook()
@@ -90,7 +93,7 @@ void addBook()
                 fread(&book, sizeof(Book), 1, temp);
                 if (strcmp(ibook.name, book.name) == 0)
                 {
-                    printf("\t该图书已经存在,请重新输入:   ");
+                    printf("\t该图书已经存在,请重新输入:   \n\t");
                     break;
                 }
                 else

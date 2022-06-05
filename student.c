@@ -59,7 +59,8 @@ void addStu(char* num) {
     }
     strcpy(stu.num, num);
     fwrite(&stu, sizeof(Stu), 1, fp);
-    printf("\t成功添加学号为%s学生\n", stu.num);
+    printf("\t成功添加学号为%s学生\n\t", stu.num);
+    system("PAUSE");
     fclose(fp);
 }
 
