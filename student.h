@@ -17,6 +17,6 @@ void borrowBook(char* num);
 // 该函数调用library库中的listBook()函数，询问用户借阅书目的序号,修改library.dat与student.dat
 
 void returnBook(char* num);
-// 该函数会输出以num为学号未归还的书籍，让学生选择选项归还
+// 该函数调用showStu()函数，询问用户归还书目的序号,修改library.dat与student.dat
 
 #endif
