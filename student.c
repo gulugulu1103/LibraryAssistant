@@ -376,6 +376,7 @@ void returnBook(char* num) {
         printf("\t %d  | 《%s》\n", i, stu.owe[i].name);
     }
     printf("\t请输入归还的书目序号\n\t");
+    Book book, bookReturned; //book用于遍历library.dat，bookFound用于记录到借阅记录中
     int destination;
     scanf("%d", &destination);
     // 检验destination是否合法
@@ -385,6 +386,7 @@ void returnBook(char* num) {
         system("PAUSE");
         return;
     }
+    bookReturned = stu.owe[destination];
     for (int i = destination; i < stu.oweNum - 1; i++) {
         stu.owe[i] = stu.owe[i + 1];
     }
@@ -410,12 +412,10 @@ void returnBook(char* num) {
     }
     fseek(libfp, 0, SEEK_SET), fseek(tempfp, 0, SEEK_SET);
     int n = countBook();
-    Book book, bookFound; //book用于遍历library.dat，bookFound用于记录到借阅记录中
     for (int i = 0; i < n; ++i) {
         fread(&book, sizeof(Book), 1, libfp);
-        if (i == destination) {
+        if (strcmp(bookReturned.name, book.name) == 0) {
             ++book.num;
-            bookFound = book;
         }
         fwrite(&book, sizeof(Book), 1, tempfp);
     }
@@ -438,7 +438,7 @@ void returnBook(char* num) {
     time(&rawtime);
     // Rec rec = { bookFound, ctime(&rawtime), 1 };
     Rec rec;
-    rec.book = bookFound;
+    rec.book = bookReturned;
     rec.borrow = 0;
     strcpy(rec.time, ctime(&rawtime));
     stu.rec[stu.recNum++] = rec;
@@ -490,7 +490,7 @@ void returnBook(char* num) {
     // printf("\terrno = %d\n: %s", errno, strerror(errno));
     if (rename(".student_temp.dat", "student.dat") == 0) {
         // 重命名成功
-        printf("\t成功借阅书本：%s\n\t", bookFound.name);
+        printf("\t成功归还书本：%s\n\t", bookReturned.name);
         system("PAUSE");
     }
     else {
