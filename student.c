@@ -125,6 +125,7 @@ void showStu(char* num) {
     if (!stu.recNum) {
         printf("\t你暂没有借阅记录\n\t");
         system("PAUSE");
+        fclose(fp);
         return;
     }
     Rec rec; // 记录
@@ -133,6 +134,7 @@ void showStu(char* num) {
         printf("\t %d | 《%s》 | %s | %s\n", i, \
             rec.book.name, rec.time, (rec.borrow ? "借 出 " : "归还"));
     }
+    fclose(fp);
 }
 
 void borrowBook(char* num) {
@@ -302,7 +304,12 @@ void borrowBook(char* num) {
         else
             fwrite(&stutemp, sizeof(Stu), 1, tempfp);
     }
-    fclose(tempfp), fclose(libfp);
+    if (fclose(tempfp) != 0) {
+        printf("\t无法关闭tempfp\n");
+        printf("\terrno = %d\n: %s", errno, strerror(errno));
+        system("PAUSE");
+        exit(0);
+    }
     if (fclose(stufp) != 0) {
         printf("\t无法关闭stufp\n");
         printf("\terrno = %d\n: %s", errno, strerror(errno));

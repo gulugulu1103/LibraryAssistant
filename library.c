@@ -105,6 +105,7 @@ void addBook()
         if (fwrite(&ibook, sizeof(Book), 1, temp) != 1)
         {
             printf("\t无法保存该信息!\n");
+            fclose(temp);
             return;
         }
         else
@@ -135,6 +136,7 @@ void addBook()
         if (fwrite(&ibook, sizeof(Book), 1, temp) != 1)
         {
             printf("\t无法保存该信息!\n\t");
+            fclose(temp);
             system("PAUSE");
             return;
         }
