@@ -144,7 +144,7 @@ void mainMenu() {
     int choice;
     printf("----------------------------------------------------------------\n");
     printf("\t\t程序设计与实践\t期末大作业\n");
-    printf("\t\t欢迎光临图书管理系统\t\t本馆现有藏书%d本\n", countBook());
+    printf("\t\t欢迎光临图书管理系统\t\t本馆现有不同藏书%d本\n", countBook());
     printf("\t1.以学生身份继续\n");
     printf("\t2.以管理员身份继续\n");
     printf("\t0.退出系统\n");
