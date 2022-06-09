@@ -62,6 +62,7 @@ void adminMenu() {
                 break;
             }
             showStu(num);
+            system("PAUSE");
             break;
         case 5:
             listBook();
@@ -107,7 +108,7 @@ void stuMenu() {
         printf("----------------------------------------------------------------\n");
         printf("\t       学生模式\t\t已登录学号：%s\n", num);
         printf("\t 1.借阅书籍 \t\t2.归还书籍\n");
-        printf("\t 3.查询你的阅记录\n") ;
+        printf("\t 3.查询你的借阅记录\n") ;
         printf("\t 0.返回首页\n");
         printf("\t请输入您的选择：\n\t");
         scanf("%d", &choice);
