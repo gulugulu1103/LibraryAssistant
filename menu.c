@@ -122,6 +122,7 @@ void stuMenu() {
             break;
         case 3:
             showStu(num);
+            system("PAUSE");
             break;
         default:
             printf("\t错误：暂无编号为%d的菜单，请重试\n\t", choice);

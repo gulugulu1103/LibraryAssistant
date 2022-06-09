@@ -11,7 +11,7 @@ int countBook()
     int record = 0;
     Book book;
     errno = 0;
-    FILE* fp = fopen(".\\library.dat", "r+");
+    FILE* fp = fopen("library.dat", "r+");
     if (!fp) {
         return 0;
     }
@@ -31,14 +31,14 @@ void listBook()
     Book book;
     if (n <= 0)
     {
-        printf("\t暂无书目，先加书目！\n\t"); 
+        printf("\t暂无书目，先加书目！\n\t");
         system("PAUSE");
         return;
     }
     else
     {
         errno = 0;
-        FILE* fp = fopen(".\\library.dat", "r+");
+        FILE* fp = fopen("library.dat", "r+");
         if (!fp) {
             printf("\t错误：无法打开library.dat，错误代码%d：%s\n\t", errno, strerror(errno));
             system("PAUSE");
@@ -46,11 +46,11 @@ void listBook()
         }
         printf("|**********************************************************************|\n");
         printf("\n\n");
-        printf("\t   %-16s   %-10s      %-6s\n", "书名", "    类型","数量");
+        printf("\t   %-16s   %-10s      %-6s\n", "书名", "    类型", "数量");
         for (int i = 0; i < n; i++)
         {
             fread(&book, sizeof(Book), 1, fp);
-            printf("\t%d | 《%-16s》 | %-10s | %-6d\n", number, book.name, book.type, book.num);
+            printf("\t%d | 《%-16s》 | %-8s | %-6d\n", number, book.name, book.type, book.num);
             number++;
         }
         printf("\n\n");
@@ -63,13 +63,13 @@ void listBook()
 }
 void addBook()
 {
-    int a = access(".\\.library.dat", F_OK);//access函数用来判断文件是否存在 
+    int a = access(".library.dat", F_OK);//access函数用来判断文件是否存在 
     if (a == 0)//文件存在,直接进行add操作 
     {
         Book ibook;//用以添加额外书籍的变量ibook 
         Book book;// 初始化一个book; 
         errno = 0; // 专门用来记录错误的变量，本质是一个int
-        FILE* temp = fopen(".\\library.dat", "r+");
+        FILE* temp = fopen("library.dat", "r+");
         if (!temp)
         {
             printf("\t错误：无法打开library.dat，错误代码%d：%s\n\t", errno, strerror(errno));
@@ -120,7 +120,7 @@ void addBook()
         Book ibook;//用以添加额外书籍的变量ibook 
         Book book;// 初始化一个book; 
         errno = 0; // 专门用来记录错误的变量，本质是一个int
-        FILE* temp = fopen(".\\library.dat", "a+");
+        FILE* temp = fopen("library.dat", "a+");
         if (!temp) {
             printf("\t错误：无法打开library.dat，错误代码%d：%s\n\t", errno, strerror(errno));
             system("PAUSE");
@@ -149,18 +149,18 @@ void delBook() {
     FILE* fp, * temp;
     int input, n = countBook();
     if (!n) {
-        printf("\t暂无书目，先加书目！\n\t"); 
+        printf("\t暂无书目，先加书目！\n\t");
         system("PAUSE");
         return;
     }
     errno = 0;
-    fp = fopen(".\\library.dat", "r+");
+    fp = fopen("library.dat", "r+");
     if (!fp) {
         printf("\t错误：无法打开library.dat，错误代码%d：%s\n\t", errno, strerror(errno));
         system("PAUSE");
         exit(0);
     }
-    temp = fopen(".\\.library_temp.dat", "w+");
+    temp = fopen(".library_temp.dat", "w+");
     if (!temp) {
         printf("\t错误：无法打开.library_temp.dat，错误代码%d：%s\n\t", errno, strerror(errno));
         system("PAUSE");
@@ -185,8 +185,13 @@ void delBook() {
         else fwrite(&book, sizeof(Book), 1, temp);
     }
     fclose(fp), fclose(temp);
-    remove(".\\library.dat");
-    if (rename(".\\.library_temp.dat", ".\\library.dat") == 0) {
+    if (remove("library.dat") != 0) {
+        printf("\t错误：无法删除library.dat\n");
+        printf("\terrno = %d\n: %s", errno, strerror(errno));
+        system("PAUSE");
+        exit(0);
+    }
+    if (rename(".library_temp.dat", "library.dat") == 0) {
         // 重命名成功
         printf("\t删除成功\n");
     }
@@ -202,19 +207,19 @@ void editBook() {
     // 该函数调用listBook(), 随后接收用户的序号来修改书目
     int input, n = countBook();
     if (!n) {
-        printf("\t暂无书目，先加书目！\n\t"); 
+        printf("\t暂无书目，先加书目！\n\t");
         system("PAUSE");
         return;
     }
     FILE* fp, * temp;
     errno = 0;
-    fp = fopen(".\\library.dat", "r+");
+    fp = fopen("library.dat", "r+");
     if (!fp) {
         printf("\t错误：无法打开library.dat，错误代码%d：%s\n\t", errno, strerror(errno));
         system("PAUSE");
         exit(0);
     }
-    temp = fopen(".\\.library_temp.dat", "w+");
+    temp = fopen(".library_temp.dat", "w+");
     if (!temp) {
         printf("\t错误：无法打开.library_temp.dat，错误代码%d：%s\n\t", errno, strerror(errno));
         system("PAUSE");
@@ -246,8 +251,13 @@ void editBook() {
         else fwrite(&book, sizeof(Book), 1, temp);
     }
     fclose(fp), fclose(temp);
-    remove(".\\library.dat");
-    if (rename(".\\.library_temp.dat", ".\\library.dat") == 0) {
+    if (remove("library.dat") != 0) {
+        printf("\t错误：无法删除library.dat\n");
+        printf("\terrno = %d\n: %s", errno, strerror(errno));
+        system("PAUSE");
+        exit(0);
+    }
+    if (rename(".library_temp.dat", "library.dat") == 0) {
         // 重命名成功
         printf("\t成功修改书名为：%s | 类型： %s | 数量：%d\n\t", edited.name, edited.type, edited.num);
         system("PAUSE");
