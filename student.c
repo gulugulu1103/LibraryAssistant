@@ -11,7 +11,7 @@
 int countStu() {
     // 该函数返回学生总数
     errno = 0; // 用来记录文件打开错误信息
-    FILE* fp = fopen("student.dat", "r+");
+    FILE* fp = fopen("student.dat", "rb+");
     if (!fp) {
         if (errno == 2) {
             return 0;
@@ -38,7 +38,7 @@ int searchStu(char* num) {
     }
     int index = -1;
     errno = 0; // 用来记录文件打开错误信息
-    FILE* fp = fopen("student.dat", "r+");
+    FILE* fp = fopen("student.dat", "rb+");
     if (!fp) {
         if (errno == 2) {
             printf("\t没有student.dat文件，请先创建学生\n\t");
@@ -73,7 +73,7 @@ void addStu(char* num) {
         return;
     }
     errno = 0; // 用来记录文件打开错误信息
-    FILE* fp = fopen("student.dat", "a+");
+    FILE* fp = fopen("student.dat", "ab+");
     if (!fp) {
         if (errno != 2) {
             printf("\t错误：无法打开student.dat，错误代码%d：%s\n\t", errno, strerror(errno));
@@ -99,7 +99,7 @@ void addStu(char* num) {
 void showStu(char* num) {
     // 调用searchStu()函数, 输出以num为学号的学生的近15条借阅记录
     errno = 0; // 用来记录文件打开错误信息
-    FILE* fp = fopen("student.dat", "r+");
+    FILE* fp = fopen("student.dat", "rb+");
     if (!fp) {
         if (errno == 2) {
             printf("\t没有student.dat文件，请先创建学生\n\t");
@@ -156,7 +156,7 @@ void borrowBook(char* num) {
         system("PAUSE");
         return;
     }
-    stufp = fopen("student.dat", "r+");
+    stufp = fopen("student.dat", "rb+");
     if (!stufp) {
         if (errno == 2) {
             printf("\t没有student.dat文件，请先创建学生\n\t");
@@ -191,7 +191,7 @@ void borrowBook(char* num) {
         return;
     }
     // 检测该书籍是否还有库存(即book.num > 0)
-    libfp = fopen("library.dat", "r+");
+    libfp = fopen("library.dat", "rb+");
     if (!libfp) {
         if (errno == 2) {
             printf("\t没有library.dat文件，请先录入书籍\n\t");
@@ -214,7 +214,7 @@ void borrowBook(char* num) {
         return;
     }
     // 已经选择目标书目，进入修改library.dat阶段，让所选书目数量-1
-    libfp = fopen("library.dat", "r+");
+    libfp = fopen("library.dat", "rb+");
     if (!libfp) {
         if (errno == 2) {
             printf("\t没有library.dat文件，请先创建学生\n\t");
@@ -226,7 +226,7 @@ void borrowBook(char* num) {
         system("PAUSE");
         exit(0);
     }
-    tempfp = fopen(".library_temp.dat", "w+");
+    tempfp = fopen(".library_temp.dat", "wb+");
     if (!tempfp) {
         printf("\t错误：无法打开.library_temp.dat，错误代码%d：%s\n\t", errno, strerror(errno));
         system("PAUSE");
@@ -275,7 +275,7 @@ void borrowBook(char* num) {
         --stu.recNum;
     }
     // 修改内存stu完成，进入修改student.dat阶段
-    stufp = fopen("student.dat", "r+");
+    stufp = fopen("student.dat", "rb+");
     if (!stufp) {
         if (errno == 2) {
             printf("\t没有student.dat文件，请先创建学生\n\t");
@@ -287,7 +287,7 @@ void borrowBook(char* num) {
         system("PAUSE");
         exit(0);
     }
-    tempfp = fopen(".student_temp.dat", "w+");
+    tempfp = fopen(".student_temp.dat", "wb+");
     if (!tempfp) {
         printf("\t错误：无法打开.student_temp.dat，错误代码%d：%s\n\t", errno, strerror(errno));
         system("PAUSE");
@@ -348,7 +348,7 @@ void returnBook(char* num) {
         system("PAUSE");
         return;
     }
-    stufp = fopen("student.dat", "r+");
+    stufp = fopen("student.dat", "rb+");
     if (!stufp) {
         if (errno == 2) {
             printf("\t没有student.dat文件，请先创建学生\n\t");
@@ -390,7 +390,7 @@ void returnBook(char* num) {
     }
     stu.oweNum--;
     // 修改library.dat, 将此书籍数+1
-    libfp = fopen("library.dat", "r+");
+    libfp = fopen("library.dat", "rb+");
     if (!libfp) {
         if (errno == 2) {
             printf("\t没有library.dat文件，请先创建学生\n\t");
@@ -402,7 +402,7 @@ void returnBook(char* num) {
         system("PAUSE");
         exit(0);
     }
-    tempfp = fopen(".library_temp.dat", "w+");
+    tempfp = fopen(".library_temp.dat", "wb+");
     if (!tempfp) {
         printf("\t错误：无法打开.library_temp.dat，错误代码%d：%s\n\t", errno, strerror(errno));
         system("PAUSE");
@@ -450,7 +450,7 @@ void returnBook(char* num) {
         --stu.recNum;
     }
     // 修改完成，进入修改student.dat阶段
-    stufp = fopen("student.dat", "r+");
+    stufp = fopen("student.dat", "rb+");
     if (!stufp) {
         if (errno == 2) {
             printf("\t没有student.dat文件，请先创建学生\n\t");
@@ -463,7 +463,7 @@ void returnBook(char* num) {
         system("PAUSE");
         exit(0);
     }
-    tempfp = fopen(".student_temp.dat", "w+");
+    tempfp = fopen(".student_temp.dat", "wb+");
     if (!tempfp) {
         printf("\terrno = %d\n: %s", errno, strerror(errno));
         printf("\t错误：无法打开.student_temp.dat，错误代码%d：%s\n\t", errno, strerror(errno));

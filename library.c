@@ -11,7 +11,7 @@ int countBook()
     int record = 0;
     Book book;
     errno = 0;
-    FILE* fp = fopen("library.dat", "r+");
+    FILE* fp = fopen("library.dat", "rb+");
     if (!fp) {
         return 0;
     }
@@ -38,7 +38,7 @@ void listBook()
     else
     {
         errno = 0;
-        FILE* fp = fopen("library.dat", "r+");
+        FILE* fp = fopen("library.dat", "rb+");
         if (!fp) {
             printf("\t错误：无法打开library.dat，错误代码%d：%s\n\t", errno, strerror(errno));
             system("PAUSE");
@@ -69,7 +69,7 @@ void addBook()
         Book ibook;//用以添加额外书籍的变量ibook 
         Book book;// 初始化一个book; 
         errno = 0; // 专门用来记录错误的变量，本质是一个int
-        FILE* temp = fopen("library.dat", "r+");
+        FILE* temp = fopen("library.dat", "rb+");
         if (!temp)
         {
             printf("\t错误：无法打开library.dat，错误代码%d：%s\n\t", errno, strerror(errno));
@@ -121,7 +121,7 @@ void addBook()
         Book ibook;//用以添加额外书籍的变量ibook 
         Book book;// 初始化一个book; 
         errno = 0; // 专门用来记录错误的变量，本质是一个int
-        FILE* temp = fopen("library.dat", "a+");
+        FILE* temp = fopen("library.dat", "ab+");
         if (!temp) {
             printf("\t错误：无法打开library.dat，错误代码%d：%s\n\t", errno, strerror(errno));
             system("PAUSE");
@@ -156,13 +156,13 @@ void delBook() {
         return;
     }
     errno = 0;
-    fp = fopen("library.dat", "r+");
+    fp = fopen("library.dat", "rb+");
     if (!fp) {
         printf("\t错误：无法打开library.dat，错误代码%d：%s\n\t", errno, strerror(errno));
         system("PAUSE");
         exit(0);
     }
-    temp = fopen(".library_temp.dat", "w+");
+    temp = fopen(".library_temp.dat", "wb+");
     if (!temp) {
         printf("\t错误：无法打开.library_temp.dat，错误代码%d：%s\n\t", errno, strerror(errno));
         system("PAUSE");
@@ -215,13 +215,13 @@ void editBook() {
     }
     FILE* fp, * temp;
     errno = 0;
-    fp = fopen("library.dat", "r+");
+    fp = fopen("library.dat", "rb+");
     if (!fp) {
         printf("\t错误：无法打开library.dat，错误代码%d：%s\n\t", errno, strerror(errno));
         system("PAUSE");
         exit(0);
     }
-    temp = fopen(".library_temp.dat", "w+");
+    temp = fopen(".library_temp.dat", "wb+");
     if (!temp) {
         printf("\t错误：无法打开.library_temp.dat，错误代码%d：%s\n\t", errno, strerror(errno));
         system("PAUSE");
